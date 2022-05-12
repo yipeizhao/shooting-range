@@ -1,48 +1,63 @@
 import numpy as np
 import random
-# Taking the command from the user
-def movement(command):
-    return 0
+
 
 
 class Game():
-    #  Initialise the game
-    #  Starting the gam with round 0
-    #  Initialising targets
-    #  Initlalising resawpn probability, for an eliminated target, the target will respawn with this prob
+    #   Initialise the game
+    #   round_no : int, starting the game with round number = 0
+    #   target: list of tuples, targets' location and number of remaining rounds
+    #   RESPWAN_PROB: float < 1; probability of targets respwan
+    #   TARGET_LOCATION: list of ints, all potential location of targets
+    #   player_loc: tuple, current location of the player, starting at the bottom-right
     def __init__(self):
         self.round_no = 0
         self.target = [(0,9),(2,1),(4,1)]
-        self.respawn_prob = 0.4
+        self.RESPAWN_PROB = 0.5
         self.TARGET_LOCATION = [0,2,4]
+        self.player_loc = [3,4]
         
-        
-        
-    def main(self):
-        while(self.round_no <50):
-            self.display()
-            self.round_no += 1
-            self.target = self.target_update()
-    
+            
     #   Display the shooting range
+    #   type: None
+    #   rtype: None
     def display(self):
         rows = ["  0_1_2_3_4|","0|         |","1|_   _   _|","2| |_| |_| |","3|_________|"]
         
         #   Modifying row 1 according to targets
-        rows1 = list(rows[1])
         for item in self.target:
-            rows1[2+2*item[0]] = str(item[1])
-        rows[1] = "".join(rows1)
+            rows[1] = string_replacement(rows[1],item[0]*2+2,item[1])
         
+        #   Modifying row 4 according to player
+        if self.player_loc[0] == 3:
+            rows[4] = string_replacement(rows[4],self.player_loc[1]*2+2,"X")
+        else:
+            rows[3] = string_replacement(rows[3],self.player_loc[1]*2+2,"X")
         for item in rows:
             print(item)
-        
+    
+    #   Taking the command and move the player
+    #   type: string
+    #   rtype: tuple    
+    def movement(self,command):
+        if command == "SOUTH":
+            self.player_loc[0] +=1
+        elif command == "NORTH":
+            self.player_loc[0] -= 1
+        elif command == "WEST":
+            self.player_loc[1] -= 1
+        elif command == "EAST":
+            self.player_loc[1] += 1,
+        elif command == "PASS":
+            self.player_loc = self.player_loc
+             
+        return (0,0)
     
     #  Obtaining the status of targets from the last round and update them.
     #  For all existing targets, reduce the round by 1
     #  Targets will disappear after 10 rounds
-    #  Input:list, status of last round
-    #  Output:list, status of the current round
+    #  type: None
+    #  Output: None
     def target_update(self):
         #   Generates a empty list, which will be the new targets
         update_target = []
@@ -54,14 +69,33 @@ class Game():
         
         #   Respawning new targets
         for i in range(3 - len(self.target)):
-            if random.random()<0.2:
+            if random.random()<self.RESPAWN_PROB:
                 new_target_loc = list(set(self.TARGET_LOCATION)-set([item[0] for item in self.target]))
                 new_target_loc = random.choice(new_target_loc)
                 update_target.append((new_target_loc,9))
-                
-        return update_target
+            
+        self.target = update_target
     
-    
+    def main(self):
+        while(self.round_no <4):
+            self.display()
+            self.round_no += 1
+            self.target_update()
+            
+            
+            
+            
+#   Replace the char c in a string s given index i
+#   type s, string
+#   type i, int
+#   type c, string
+#   rtype new_s, string
+def string_replacement(s,i,c):
+    new_s = list(s)
+    new_s[i] = str(c)
+    new_s = "".join(new_s)
+    return new_s
+
 if __name__ == "__main__":
     game = Game()
     print(game.main())

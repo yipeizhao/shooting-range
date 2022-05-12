@@ -5,8 +5,10 @@ import random
 
 class Game():
     #   Initialise the game
-    #   round_no : int, starting the game with round number = 0
+    #   round_no: int, starting the game with round number = 0
+    #   target_no: int, starting the game with target number = 3. Increments by 1 whenever a target is spawned.
     #   ROUND_MAX: int, game will stop if reaches max rounds
+    #   TARGET_MAX: int, game will stop if reaches max targets
     #   score: int, score earned
     #   target: list of tuples, targets' location and number of remaining rounds
     #   RESPWAN_PROB: float < 1; probability of targets respwan
@@ -14,7 +16,9 @@ class Game():
     #   player_loc: list, current location of the player, starting at the bottom-right
     def __init__(self):
         self.round_no = 0
+        self.target_no = 3
         self.ROUND_MAX = 50
+        self.TARGET_MAX = 50
         self.score = 0
         self.target = [(0,9),(2,9),(4,9)]
         self.RESPAWN_PROB = 0.5
@@ -87,11 +91,12 @@ class Game():
                 new_target_loc = list(set(self.TARGET_LOCATION)-set([item[0] for item in self.target]))
                 new_target_loc = random.choice(new_target_loc)
                 update_target.append((new_target_loc,9))
+                target_no += 1
             
         self.target = update_target
     
     def main(self):
-        while(self.round_no < self.ROUND_MAX):
+        while(self.round_no < self.ROUND_MAX and self.target_np < self.TARGET_MAX):
             self.display()
             self.round_no += 1
             self.target_update()

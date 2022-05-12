@@ -9,7 +9,7 @@ class Game():
     #   target: list of tuples, targets' location and number of remaining rounds
     #   RESPWAN_PROB: float < 1; probability of targets respwan
     #   TARGET_LOCATION: list of ints, all potential location of targets
-    #   player_loc: tuple, current location of the player, starting at the bottom-right
+    #   player_loc: list, current location of the player, starting at the bottom-right
     def __init__(self):
         self.round_no = 0
         self.target = [(0,9),(2,1),(4,1)]
@@ -38,7 +38,7 @@ class Game():
     
     #   Taking the command and move the player
     #   type: string
-    #   rtype: tuple    
+    #   rtype: None    
     def movement(self,command):
         if command == "SOUTH":
             self.player_loc[0] +=1
@@ -50,8 +50,12 @@ class Game():
             self.player_loc[1] += 1,
         elif command == "PASS":
             self.player_loc = self.player_loc
+        elif command == "SHOOT":
+            print("Shoot")
+        else:
+            raise Exception("Invalid movement")
              
-        return (0,0)
+    
     
     #  Obtaining the status of targets from the last round and update them.
     #  For all existing targets, reduce the round by 1
@@ -81,6 +85,7 @@ class Game():
             self.display()
             self.round_no += 1
             self.target_update()
+            
             
             
             

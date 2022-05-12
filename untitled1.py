@@ -6,13 +6,17 @@ import random
 class Game():
     #   Initialise the game
     #   round_no : int, starting the game with round number = 0
+    #   ROUND_MAX: int, game will stop if reaches max rounds
+    #   score: int, score earned
     #   target: list of tuples, targets' location and number of remaining rounds
     #   RESPWAN_PROB: float < 1; probability of targets respwan
     #   TARGET_LOCATION: list of ints, all potential location of targets
     #   player_loc: list, current location of the player, starting at the bottom-right
     def __init__(self):
         self.round_no = 0
-        self.target = [(0,9),(2,1),(4,1)]
+        self.ROUND_MAX = 50
+        self.score = 0
+        self.target = [(0,9),(2,9),(4,9)]
         self.RESPAWN_PROB = 0.5
         self.TARGET_LOCATION = [0,2,4]
         self.player_loc = [3,4]
@@ -35,6 +39,9 @@ class Game():
             rows[3] = string_replacement(rows[3],self.player_loc[1]*2+2,"X")
         for item in rows:
             print(item)
+        print("")    
+        print("Score: "+str(self.score))
+        print("")
     
     #   Taking the command and move the player
     #   type: string
@@ -51,7 +58,10 @@ class Game():
         elif command == "PASS":
             self.player_loc = self.player_loc
         elif command == "SHOOT":
-            print("Shoot")
+            for item in self.target:
+                if item[0] == self.player_loc[1]:
+                    self.target.remove(item)
+                    self.score += 1
         else:
             raise Exception("Invalid movement")
              
@@ -81,12 +91,11 @@ class Game():
         self.target = update_target
     
     def main(self):
-        while(self.round_no <4):
+        while(self.round_no < self.ROUND_MAX):
             self.display()
             self.round_no += 1
             self.target_update()
-            
-            
+            self.movement("SHOOT")
             
             
             

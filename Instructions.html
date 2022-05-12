@@ -1,0 +1,92 @@
+<html><head>
+    <title>Instructions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="Instructions_files/theme.css">
+    <link rel="stylesheet" type="text/css" href="Instructions_files/navbar.css">
+    <link rel="stylesheet" type="text/css" href="Instructions_files/instructions.css">
+    <link rel="stylesheet" id="tt-easy-google-fonts-css" href="Instructions_files/css.css" type="text/css" media="all">
+</head>
+
+<body id="root" class="darkmode">
+    <div class="parent">
+        <div class="navBar">
+            <label class="navBar__label">Instructions</label>
+            <span id="links" class="navBar__links">
+                <a class="navBar__link" href="https://pinewood-assessment-center-client.azurewebsites.net/live.html" target="_blank">Open Live Leaderboard</a>
+                <a class="navBar__link" href="https://pinewood-assessment-center-client.azurewebsites.net/cheatSheets/jscheatsheet.pdf" target="_blank">JavaScript 'Cheat' Sheet</a>
+                <input type="checkbox" id="navBar__toggle" class="navBar__toggle" checked="checked">
+                <label for="navBar__toggle">Dark</label>
+            </span>
+        </div>
+
+        <div class="instructions" id="instructions"><h1 id="introduction">Introduction</h1>
+<p>You are required to implement a JavaScript function that is able to choose a <em>single</em> move in the game ShootingRange, given the current game state.</p>
+<p>ShootingRange is a fairground style game where an AI Bot is moved side to side in a grid aiming to shoot targets that appear randomly within three alleyways. The game grid is split between an area where the AI bot can traverse, and the area where the targets appear.</p>
+<p>The total game area is a grid of 5 x 4 cells, running from (0,0) in the top-left to (4,3) in the bottom right. The targets appear in cells (row: 0, col: 0), (row: 0, col: 2), and (row: 0, col: 4), and the player moves along (row: 3) and can move up into firing positions (row: 2, col: 0), (row: 2, col: 2) and (row: 2, col: 4).</p>
+<p>When playing a local test game (explained more below) the board will be displayed like this:</p>
+<pre><code>        0 1 2 3 4
+    
+0   |1       3|
+1   |_   _   _|
+2   | |_| |_| |
+3   |        X|
+</code></pre>
+<p>In this visualisation, cells are separated from one another by the "|" character. You can see the location of the player from the position of the X character. The locations of Targets are displayed using the number of moves they remain before disappearing (i.e. 5 means it will be there for 5 more moves, 2 means two more moves etc). </p>
+<p>Targets will appear in the different alleyways randomly and will disappear after <strong>9</strong> turns or when they are successfully shot by the AI bot. The pattern to which they appear is randomised every tournament, but all AI bots play the same pattern as each other. The test game is <strong>NOT</strong> randomised, however.</p>
+<p>In the game, points are awarded for shooting targets, and deducted slightly if an invalid move was made at any time in the game. Highest score wins!</p>
+<p>Every turn, each bot can take <em>one</em> action, chosen by returning a single string from the function containing their code. The action the bot takes can be: "NORTH", "EAST", "SOUTH", "WEST", "FIRE" or "PASS".</p>
+<p>NORTH, EAST, SOUTH and WEST cause the bot to attempt to move in the corresponding direction (Up, right, down, left). </p>
+<p>FIRE will shoot a target if the bot is positioned in the firing position that shares the same column as the target. For example if there is a target in (row: 0, col: 0), the play must be in (row: 2, col: 0) for the shot to hit the target. (Note: Simply being in the correct column is not enough, the bot needs to be in the firing position (row: 2) too!).</p>
+<p>Bots can choose to PASS if they do not want to take an action on the turn. This is considered a valid move (See scoring for further information).</p>
+<h1 id="the-function">The Function</h1>
+<p>You are given the function 'play(location, targetInformation, turnNumber)' to implement. You do not need to alter this function signature - just write your code inside this function.</p>
+<p>Your function should always return one of the actions listed above, as a string. Returning any other value is invalid, as is returning an action which cannot be carried out in the current game state (ie, "EAST" when you are at the edge of the grid, or "FIRE" when you are not in a firing position corresponding to a target.)</p>
+<p>Your function is passed three parameters (location, targetInformation, turnNumber), and will be called each time it is your bot's turn to play.</p>
+<h2 id="location-object-">location (object) :</h2>
+<p>location is an object of the form:</p>
+<pre><code>{
+    row: &lt;number&gt;
+    col: &lt;number&gt;
+}
+</code></pre>
+<p>It indicates the current position of your bot on the grid. </p>
+<h2 id="targetinformation-array-">targetInformation (array) :</h2>
+<p>targetInformation is an array of objects, of the form:</p>
+<pre><code>{
+    location: {
+        row: &lt;number&gt;, 
+        col: &lt;number&gt;}
+    },
+    turnsUntilDisappeared: &lt;number&gt;
+}
+</code></pre>
+<p>Each object in the array represents a target in the range, and has the location of the target, as well as the amount of turns remaining before the target will disappear.</p>
+<p>In the event that there are no targets to display for the given turn, the targetInformation will be an empty array (have a length of zero).</p>
+<h2 id="turnnumber-number-">turnNumber (number) :</h2>
+<p>The current turnNumber. This starts at 1, and will increment each time your function is invoked.</p>
+<h1 id="scoring">Scoring</h1>
+<p>Your bot will play in a tournament against the other team's bots. It will be scored based on performance. </p>
+<ul>
+<li>Hitting a target will earn you a point.</li>
+<li>Playing any invalid moves in the game marks that game as an invalid game, and will subtract 3 points from your score. <strong>You have been warned</strong>!</li>
+</ul>
+<p>When you have a working bot, click "Submit Code" to send the current version to the server to compete in this tournament. You can submit your code as many times as you desire during the allowed time for the task.</p>
+<p>The tournament will play your latest code, and scoring does not stack between tournaments so keep improving your code and your bots performance to win.</p>
+<h1 id="local-test-games">Local Test Games</h1>
+<p>You are able to test out your bot without submitting it by using the test game in the bottom-right of the development environment. Here you can see how your bot behaves in a game.</p>
+<h1 id="notes">Notes:</h1>
+<ul>
+<li>If your code throws an error, your move will be skipped.</li>
+<li>If your move is invalid, your move will be skipped.</li>
+<li>The game ends when there are no more targets remaining or scheduled to appear, or there have been 50 turns; whichever happens first.</li>
+<li>You are able to make as many submissions of your code as you want - each submission is stored for discussion later and we love to see how your solution progressed!</li>
+<li>When running a test game, calling console.log() with a string argument will cause the string you pass to appear as part of the output in the bottom right.</li>
+<li>Feel free to create as many other functions as you feel is helpful, just make sure you keep the signature of the main "play" function exactly as it is!</li>
+</ul>
+<p><strong>Good luck!</strong></p>
+</div>
+    </div>
+    <script src="Instructions_files/client.js"></script>
+
+
+</body></html>

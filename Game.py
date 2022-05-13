@@ -107,12 +107,12 @@ class Game():
     
     def main(self):
         while(self.round_no < self.ROUND_MAX and self.target_no < self.TARGET_MAX):
-            print(self.round_no)
+            print("Round no" + str(self.round_no))
             self.display()
             self.round_no += 1
             self.target_update()
             self.movement("SHOOT")
-            print(self.target_no)
+            print("Target respawned" + str(self.target_no))
             
             
             

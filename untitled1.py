@@ -9,7 +9,7 @@ class Game():
     # round_no: int, starting the game with round number = 0
     # target_no: int, starting the game with target number = 3. Increments by 1 whenever a target is spawned.
     # ROUND_MAX: int, game will stop if reaches max rounds
-    # TARGET_MAX: int, game will stop if reaches max targets
+    # TARGET_MAX: int, game will stop if reaches max targets. The game will immedaitely stop after the target respawn so we need to add one
     # score: int, score earned
     # target: list of tuples, targets' location and number of remaining rounds
     # RESPWAN_PROB: float < 1; probability of targets respwan
@@ -20,7 +20,7 @@ class Game():
         self.round_no = 0
         self.target_no = 3
         self.ROUND_MAX = 50
-        self.TARGET_MAX = 10
+        self.TARGET_MAX = 10 +4 
         self.score = 0
         self.target = [(0,9),(2,9),(4,9)]
         self.RESPAWN_PROB = 0.5
@@ -96,7 +96,7 @@ class Game():
                 update_target.append((item[0],item[1]-1))
         
         #   Respawning new targets
-        for i in range(3 - len(self.target)):
+        for i in range(2 - len(self.target)):
             if random.random()<self.RESPAWN_PROB:
                 new_target_loc = list(set(self.TARGET_LOCATION)-set([item[0] for item in self.target]))
                 new_target_loc = random.choice(new_target_loc)
@@ -107,10 +107,12 @@ class Game():
     
     def main(self):
         while(self.round_no < self.ROUND_MAX and self.target_no < self.TARGET_MAX):
+            print(self.round_no)
             self.display()
             self.round_no += 1
             self.target_update()
             self.movement("SHOOT")
+            print(self.target_no)
             
             
             

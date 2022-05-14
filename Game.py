@@ -147,6 +147,19 @@ class Game():
             self.target_update()
             self.display()
         return self.player_loc, self.target,self.round_no
+    
+    # =============================================================================
+    # An interactive way to play the game, taking the command from the user
+    # =============================================================================
+    def interactive(self):
+         while(self.round_no < self.ROUND_MAX and self.round_no < self.TARGET_MAX):
+            print("Round no: " + str(self.round_no))
+            self.display()
+            command = input("Please state your next move: ")
+            self.movement(command)
+            self.target_update()
+            self.round_no += 1
+            print("Target respawned: " + str(self.round_no))
             
 # =============================================================================
 # Replace the char c in a string s given index i

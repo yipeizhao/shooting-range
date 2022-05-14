@@ -16,7 +16,7 @@ class Game():
     # =============================================================================
     def __init__(self):
         self.round_no = 0
-        self.round_no = 3
+        self.target_no = 3
         self.width = 5
         self.ROUND_MAX = 50
         self.TARGET_MAX = 10 +4 
@@ -80,7 +80,10 @@ class Game():
         if command == "SOUTH":
             self.player_loc[0] +=1
         elif command == "NORTH":
-            self.player_loc[0] -= 1
+            if self.player_loc[0] == 3:
+                self.player_loc[0] -= 1
+            else:
+                raise Exception("You are out of the box")
         elif command == "WEST":
             self.player_loc[1] -= 1
         elif command == "EAST":
@@ -123,7 +126,7 @@ class Game():
                 new_target_loc = list(set(self.TARGET_LOCATION)-set([item[0] for item in self.target]))
                 new_target_loc = random.choice(new_target_loc)
                 update_target.append((new_target_loc,9))
-                self.round_no += 1
+                self.target_no += 1
             
         self.target = update_target
     
@@ -134,7 +137,7 @@ class Game():
             self.movement("SHOOT")
             self.target_update()
             self.display()
-            print("Target respawned: " + str(self.round_no))
+            print("Target respawned: " + str(self.target_no))
             
     # =============================================================================
     # Increment the game round by one round with a given command
@@ -161,7 +164,7 @@ class Game():
             self.movement(command)
             self.target_update()
             self.round_no += 1
-            print("Target respawned: " + str(self.round_no))
+            print("Target respawned: " + str(self.target_no))
             
 # =============================================================================
 # Replace the char c in a string s given index i

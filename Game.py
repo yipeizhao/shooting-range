@@ -65,7 +65,7 @@ class Game():
         for item in self.target:
             rows[1] = string_replacement(rows[1],item[0]*2+2,item[1])
         
-        #Modifying row 4 according to player
+        # Modifying row 4 according to player
         if self.player_loc[0] == 3:
             rows[4] = string_replacement(rows[4],self.player_loc[1]*2+2,"X")
         else:
@@ -86,6 +86,7 @@ class Game():
             self.player_loc[0] +=1
         
         elif command == "NORTH":
+            # Only operates if player is in row 3
             if self.player_loc[0] == 3:
                 self.player_loc[0] -= 1
             else:
@@ -101,7 +102,7 @@ class Game():
             self.player_loc = self.player_loc
             
         elif command == "SHOOT":
-            #Detect wether a the player is in row 2 and there is a target infront
+            # Detect wether a the player is in row 2 and there is a target infront
             if self.player_loc[0] == 2:
                 for item in self.target:
                         if item[0] == self.player_loc[1]:
@@ -109,6 +110,11 @@ class Game():
                             self.score += 1
         else:
             raise Exception("Invalid movement")
+            # Restraints:
+            # 1. Player loc column no +1 < width
+            # 2. Player loc column is > 0(not going left out of the map)
+            # 3. Player loc row is not >3(not going below the map)
+            # 4. Player loc row = 2 and can only go in even columns
         if self.player_loc[1]+1 > self.width or self.player_loc[1]<0 or self.player_loc[0]>3 or bool(self.player_loc[1]%2!=0 and self.player_loc[0]==2):
             raise Exception("You are out of the box")
              
@@ -122,15 +128,15 @@ class Game():
     # Output: None
     # =============================================================================
     def target_update(self):
-        #Generates a empty list, which will be the new targets
+        # Generates a empty list, which will be the new targets
         update_target = []
-        #For targets in the list, decrease the round number by 1 and append it to the updated targets list
-        #If the remaining round =1, it will not be added to the updated list 
+        # For targets in the list, decrease the round number by 1 and append it to the updated targets list
+        # If the remaining round =1, it will not be added to the updated list 
         for item in self.target:
             if item[1] != 1:
                 update_target.append((item[0],item[1]-1))
         
-        #Respawning new targets
+        # Respawning new targets
         for i in range(2 - len(self.target)):
             if random.random()<self.RESPAWN_PROB:
                 new_target_loc = list(set(self.TARGET_LOCATION)-set([item[0] for item in self.target]))

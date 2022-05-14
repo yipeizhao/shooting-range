@@ -4,15 +4,15 @@ class Game():
     # =============================================================================
     # Initialise the game
     # round_no: int, starting the game with round number = 0
-    # width: int, grid width
-    # round_no: int, starting the game with target number = 3. Increments by 1 whenever a target is spawned.
+    # target_no: int, number of targets(ID given to a target)
+    # width: int, width of the shooting range
     # ROUND_MAX: int, game will stop if reaches max rounds
     # TARGET_MAX: int, game will stop if reaches max targets. The game will immedaitely stop after the target respawn so we need to add one
     # score: int, score earned
-    # target: list of tuples, targets' location and number of remaining rounds
     # RESPWAN_PROB: float < 1; probability of targets respwan
-    # TARGET_LOCATION: list of ints, all potential location of targets
     # player_loc: list, current location of the player, starting at the bottom-right
+    # TARGET_LOCATION: list of ints, all potential location of targets
+    # target: inital location of the targets and remaining rounds
     # =============================================================================
     def __init__(self):
         self.round_no = 0
@@ -22,7 +22,7 @@ class Game():
         self.TARGET_MAX = 10 +4 
         self.score = 0
         self.RESPAWN_PROB = 0.5
-        self.player_loc = [3,4]
+        self.player_loc = [3,self.width-1]
         if self.width%2 != 0:
             self.TARGET_LOCATION = list(range(0,self.width,2))
             self.target = [(item,9) for item in list(range(0,self.width,2))]

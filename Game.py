@@ -135,7 +135,7 @@ class Game():
             print("Target respawned: " + str(self.round_no))
             
     # =============================================================================
-    # Increment the game by one round with a given command
+    # Increment the game round by one round with a given command
     # type string: command
     # rtype tuple of ints,list of tuples of ints,int
     # =============================================================================

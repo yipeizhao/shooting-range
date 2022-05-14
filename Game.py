@@ -45,7 +45,7 @@ class Game():
             rows[2] += "   _"*int(((width-1)/2))+"  |"
             rows[3] += " |_|"*int(((width-1)/2)+1)
             rows[3] = rows[3][:-1]+"|"
-        rows[4] += "_"*(2*width-2)+"|"
+        rows[4] += "_"*(2*width-2)+"| "
         return rows
     
     # =============================================================================
@@ -84,7 +84,7 @@ class Game():
         elif command == "WEST":
             self.player_loc[1] -= 1
         elif command == "EAST":
-            self.player_loc[1] += 1,
+            self.player_loc[1] += 1
         elif command == "PASS":
             self.player_loc = self.player_loc
         elif command == "SHOOT":
@@ -96,6 +96,8 @@ class Game():
                             self.score += 1
         else:
             raise Exception("Invalid movement")
+        if self.player_loc[1]+1 > self.width or self.player_loc[1]<0 or self.player_loc[0]>3:
+            raise Exception("You are out of the box")
              
     
     
@@ -176,4 +178,4 @@ def string_replacement(s,i,c):
 
 if __name__ == "__main__":
     game = Game()
-    game.main()
+    game.interactive()

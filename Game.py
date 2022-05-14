@@ -137,7 +137,7 @@ class Game():
                 update_target.append((item[0],item[1]-1))
         
         # Respawning new targets
-        for i in range(2 - len(self.target)):
+        for i in range(len(self.TARGET_LOCATION) - len(self.target)):
             if random.random()<self.RESPAWN_PROB:
                 new_target_loc = list(set(self.TARGET_LOCATION)-set([item[0] for item in self.target]))
                 new_target_loc = random.choice(new_target_loc)
@@ -147,7 +147,7 @@ class Game():
         self.target = update_target
     
     def main(self):
-        while(self.round_no < self.ROUND_MAX and self.round_no < self.TARGET_MAX):
+        while(self.round_no < self.ROUND_MAX and self.target_no < self.TARGET_MAX):
             print("Round no: " + str(self.round_no))
             self.round_no += 1
             self.movement("SHOOT")
@@ -161,7 +161,7 @@ class Game():
     # rtype tuple of ints,list of tuples of ints,int
     # =============================================================================
     def output(self,command):
-        if(self.round_no < self.ROUND_MAX and self.round_no < self.TARGET_MAX):
+        if(self.round_no < self.ROUND_MAX and self.target_no < self.TARGET_MAX):
             print("Round no: " + str(self.round_no))
             self.round_no += 1
             self.movement(command)
@@ -173,13 +173,13 @@ class Game():
     # An interactive way to play the game, taking the command from the user
     # =============================================================================
     def interactive(self):
-         while(self.round_no < self.ROUND_MAX and self.round_no < self.TARGET_MAX):
+         while(self.round_no < self.ROUND_MAX and self.target_no < self.TARGET_MAX):
             print("Round no: " + str(self.round_no))
             self.display()
             command = input("Please state your next move: ")
+            self.round_no += 1
             self.movement(command)
             self.target_update()
-            self.round_no += 1
             print("Target respawned: " + str(self.target_no))
             
 # =============================================================================

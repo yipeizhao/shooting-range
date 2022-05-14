@@ -17,14 +17,21 @@ class Game():
     def __init__(self):
         self.round_no = 0
         self.target_no = 3
-        self.width = 5
+        self.width = 8
         self.ROUND_MAX = 50
         self.TARGET_MAX = 10 +4 
         self.score = 0
-        self.target = [(0,9),(2,9),(4,9)]
+        # self.target = [(0,9),(2,9),(4,9)]
         self.RESPAWN_PROB = 0.5
         self.TARGET_LOCATION = [0,2,4]
         self.player_loc = [3,4]
+        if self.width%2 != 0:
+            self.TARGET_LOCATION = list(range(0,self.width,2))
+            self.target = [(item,9) for item in list(range(0,self.width,2))]
+        else:
+            self.TARGET_LOCATION = list(range(0,self.width-1,2))
+            self.target = [(item,9) for item in list(range(0,self.width-1,2))]
+        
         
     # =============================================================================
     # Creating the board by printing line by line
@@ -79,17 +86,22 @@ class Game():
     def movement(self,command):
         if command == "SOUTH":
             self.player_loc[0] +=1
+        
         elif command == "NORTH":
             if self.player_loc[0] == 3:
                 self.player_loc[0] -= 1
             else:
                 raise Exception("You are out of the box")
+                
         elif command == "WEST":
             self.player_loc[1] -= 1
+            
         elif command == "EAST":
             self.player_loc[1] += 1
+            
         elif command == "PASS":
             self.player_loc = self.player_loc
+            
         elif command == "SHOOT":
             #Detect wether a the player is in row 2 and there is a target infront
             if self.player_loc[0] == 2:
@@ -99,7 +111,7 @@ class Game():
                             self.score += 1
         else:
             raise Exception("Invalid movement")
-        if self.player_loc[1]+1 > self.width or self.player_loc[1]<0 or self.player_loc[0]>3:
+        if self.player_loc[1]+1 > self.width or self.player_loc[1]<0 or self.player_loc[0]>3 or bool(self.player_loc[1]%2!=0 and self.player_loc[0]==2):
             raise Exception("You are out of the box")
              
     

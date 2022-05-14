@@ -21,9 +21,7 @@ class Game():
         self.ROUND_MAX = 50
         self.TARGET_MAX = 10 +4 
         self.score = 0
-        # self.target = [(0,9),(2,9),(4,9)]
         self.RESPAWN_PROB = 0.5
-        self.TARGET_LOCATION = [0,2,4]
         self.player_loc = [3,4]
         if self.width%2 != 0:
             self.TARGET_LOCATION = list(range(0,self.width,2))

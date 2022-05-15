@@ -1,6 +1,7 @@
 import random
 class Game:
     def __init__(self):
+        self.invalid = False
         self.round_no = 0
         self.target_no = 3
         self.width = 5
@@ -9,14 +10,15 @@ class Game:
         self.RESPAWN_PROB = 0.3
         self.score = 0
         self.player = self.Player(0,self.width - 1)
+        self.TARGET_LOCATION = set([(3,item) for item in list(range(0,self.width,2))])
         if self.width%2 != 0:
-            self.TARGET_LOCATION = set([(3,item) for item in list(range(0,self.width,2))])
             self.target = [((3,item),9) for item in list(range(0,self.width,2))]
             self.target = [self.Target(item[0],item[1]) for item in self.target]
+            self.AVAILABLE_COL=list(range(0,self.width,2))
         else:
-            self.TARGET_LOCATION = [(3,item) for item in list(range(0,self.width,2))]
             self.target = [((3,item),9) for item in list(range(0,self.width-1,2))]
             self.target = [self.Target(item[0],item[1]) for item in self.target]
+            self.AVAILABLE_COL=list(range(0,self.width-1,2))
     
     def create_board(self,width):
         rows = ["  ","3|","2|_","1|","0|_"]
@@ -58,44 +60,42 @@ class Game:
     # rtype: None    
     # =============================================================================
     def movement(self,command):
+        new_loc = [self.player.row,self.player.col]
         if command == "SOUTH":
-            self.player.row -=1
+            new_loc[0] -=1
         
         elif command == "NORTH":
-            # Only operates if player is in row 3
-            if self.player.row == 0:
-                self.player.row += 1
-            else:
-                raise Exception("You are out of the box")
-                
+            new_loc[0]+=1
         elif command == "WEST":
-            self.player.col-= 1
+            new_loc[1]-= 1
             
         elif command == "EAST":
-            self.player.col += 1
+            new_loc[1] += 1
             
         elif command == "PASS":
             pass
             
         elif command == "SHOOT":
             # Detect wether a the player is in row 2 and there is a target infront
-            if self.player.row == 1:
+            if new_loc[0] == 1 and (new_loc[1] in [item.col for item in self.target]):
                 for item in self.target:
-                        if item.col == self.player.col:
+                        if item.col == new_loc[1]:
                             self.target.remove(item)
                             self.score += 1
+            else:
+                print("You made an invalid shot.")
+                self.score-=3
+                self.invalid = not self.invalid
         else:
-            raise Exception("Invalid movement")
-            # Restraints:
-            # 1. Player loc column no +1 < width
-            # 2. Player loc column is > 0(not going left out of the map)
-            # 3. Player loc row is not >3(not going below the map)
-            # 4. Player loc row = 2 and can only go in even columns
-        if self.player.col+1 > self.width or \
-           self.player.col<0 or \
-           self.player.row>3 or \
-           bool(self.player.col%2!=0 and self.player.row==2):
-            raise Exception("You are out of the box")
+            print("You entered an invalid command.")
+            self.score -=3
+
+        if new_loc[0] == 0 or (new_loc[0] == 1 and new_loc[1] in self.AVAILABLE_COL):
+            self.player.row = new_loc[0];self.player.col = new_loc[1]
+        else:
+            print("You made an invalid move.")
+            self.score -=3
+            self.invalid = not self.invalid
     
     def target_update(self):
         new_targets = []

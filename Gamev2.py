@@ -6,20 +6,20 @@ class Game:
         self.width = 5
         self.ROUND_MAX = 50
         self.TARGET_MAX = 10 +4 
-        self.RESPAWN_PROB = 0.5
+        self.RESPAWN_PROB = 0.3
         self.score = 0
-        self.player = self.Player(3,self.width - 1)
+        self.player = self.Player(0,self.width - 1)
         if self.width%2 != 0:
-            self.TARGET_LOCATION = set([(0,item) for item in list(range(0,self.width,2))])
-            self.target = [((0,item),9) for item in list(range(0,self.width,2))]
+            self.TARGET_LOCATION = set([(3,item) for item in list(range(0,self.width,2))])
+            self.target = [((3,item),9) for item in list(range(0,self.width,2))]
             self.target = [self.Target(item[0],item[1]) for item in self.target]
         else:
-            self.TARGET_LOCATION = [(0,item) for item in list(range(0,self.width,2))]
-            self.target = [((0,item),9) for item in list(range(0,self.width-1,2))]
+            self.TARGET_LOCATION = [(3,item) for item in list(range(0,self.width,2))]
+            self.target = [((3,item),9) for item in list(range(0,self.width-1,2))]
             self.target = [self.Target(item[0],item[1]) for item in self.target]
     
     def create_board(self,width):
-        rows = ["  ","0|","1|_","2|","3|_"]
+        rows = ["  ","3|","2|_","1|","0|_"]
         for i in range(width):
             rows[0] += str(i)+"_"
         rows[0] = rows[0][:-1]
@@ -42,7 +42,7 @@ class Game:
             rows[1] = string_replacement(rows[1],item.col*2+2,item.remaining_round)
         
         # Modifying row 4 according to player
-        if self.player.row == 3:
+        if self.player.row == 0:
             rows[4] = string_replacement(rows[4],self.player.col*2+2,"X")
         else:
             rows[3] = string_replacement(rows[3],self.player.col*2+2,"X")
@@ -59,12 +59,12 @@ class Game:
     # =============================================================================
     def movement(self,command):
         if command == "SOUTH":
-            self.player.row +=1
+            self.player.row -=1
         
         elif command == "NORTH":
             # Only operates if player is in row 3
-            if self.player.row == 3:
-                self.player.row -= 1
+            if self.player.row == 0:
+                self.player.row += 1
             else:
                 raise Exception("You are out of the box")
                 
@@ -79,7 +79,7 @@ class Game:
             
         elif command == "SHOOT":
             # Detect wether a the player is in row 2 and there is a target infront
-            if self.player.row == 2:
+            if self.player.row == 1:
                 for item in self.target:
                         if item.col == self.player.col:
                             self.target.remove(item)
@@ -105,6 +105,7 @@ class Game:
         for item1 in (self.TARGET_LOCATION - set([item.loc for item in self.target])):
             if random.random()<self.RESPAWN_PROB:
                 new_targets.append(self.Target(item1,9))
+                self.target_no+=1
         self.target = new_targets
         
     
@@ -129,15 +130,20 @@ class Game:
     # =============================================================================
     def interactive(self):
          while(self.round_no < self.ROUND_MAX and self.target_no < self.TARGET_MAX):
+            self.round_no += 1
             print("Round no: " + str(self.round_no))
             self.display()
             command = input("Please state your next move: ")
-            self.round_no += 1
             self.movement(command)
-            self.target_update()
             for item in self.target:
                 item.update()
+            self.target_update()
             print("Target respawned: " + str(self.target_no))
+            
+            
+    def output(self):
+        return self.player.loc,self.target,self.round_no
+    
 # =============================================================================
 # Replace the char c in a string s given index i
 # type s, string

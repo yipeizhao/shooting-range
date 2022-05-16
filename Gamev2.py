@@ -4,7 +4,7 @@ class Game:
         self.invalid = False
         self.round_no = 0
         self.target_no = 3
-        self.width = 5
+        self.width = 8
         self.ROUND_MAX = 50
         self.TARGET_MAX = 10 +4 
         self.RESPAWN_PROB = 0.3
@@ -143,6 +143,7 @@ class Game:
             
     def output(self):
         return self.player.loc,self.target,self.round_no
+    
     
 # =============================================================================
 # Replace the char c in a string s given index i

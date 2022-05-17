@@ -1,6 +1,6 @@
 import random
 
-class Game:
+class Game():
     # =============================================================================
     # Initialise the game
     # invalid: bool, invalid game if an invalid move has been performed
@@ -20,7 +20,7 @@ class Game:
         self.invalid = False
         self.round_no = 0
         self.target_no = 3
-        self.width = 8
+        self.width = 5
         self.ROUND_MAX = 50
         self.TARGET_MAX = 10 +4 
         self.RESPAWN_PROB = 0.3

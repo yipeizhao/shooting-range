@@ -1,5 +1,5 @@
 import random
-
+from util import string_replacement
 class Game():
     # =============================================================================
     # Initialise the game
@@ -148,9 +148,9 @@ class Game():
             else:
                 self.player.row = new_loc[0];self.player.col = new_loc[1]
             # After command, targets are updated
-            for item in self.target:
-                item.update()
-            self.target_update()
+        for item in self.target:
+            item.update()
+        self.target_update()
     
     # =============================================================================
     # target_update is called every round
@@ -222,18 +222,7 @@ class Game():
         return [[self.player.row,self.player.col],[(item.loc,item.remaining_round) for item in self.target],self.round_no]
     
     
-# =============================================================================
-# Replace the char c in a string s given index i
-# type s, string
-# type i, int
-# type c, string
-# rtype new_s, string
-# =============================================================================
-def string_replacement(s,i,c):
-    new_s = list(s)
-    new_s[i] = str(c)
-    new_s = "".join(new_s)
-    return new_s
+
 
 # game = Game()
 # game.interactive()

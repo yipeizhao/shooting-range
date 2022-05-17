@@ -1,5 +1,5 @@
 import random
-
+from util import string_replacement
 class Game():
     # =============================================================================
     # Initialise the game
@@ -182,18 +182,6 @@ class Game():
             self.target_update()
             print("Target respawned: " + str(self.target_no))
             
-# =============================================================================
-# Replace the char c in a string s given index i
-# type s, string
-# type i, int
-# type c, string
-# rtype new_s, string
-# =============================================================================
-def string_replacement(s,i,c):
-    new_s = list(s)
-    new_s[i] = str(c)
-    new_s = "".join(new_s)
-    return new_s
 
 if __name__ == "__main__":
     game = Game()

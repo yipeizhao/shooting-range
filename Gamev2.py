@@ -35,7 +35,8 @@ class Game():
             self.target = [((3,item),9) for item in list(range(0,self.width-1,2))]
             self.target = [self.Target(item[0],item[1]) for item in self.target]
             self.AVAILABLE_COL=list(range(0,self.width-1,2))
-    
+
+        
     # =============================================================================
     # Generating the shooting range
     # type: int
@@ -64,7 +65,9 @@ class Game():
     # rtype: None
     # =============================================================================
     def display(self):
+        print("")
         print("Round no: " + str(self.round_no))
+        print("Target respawned: " + str(self.target_no))
         rows = self.create_board(self.width)
         #Modifying row 1 according to targets
         for item in self.target:
@@ -76,8 +79,7 @@ class Game():
         else:
             rows[3] = string_replacement(rows[3],self.player.col*2+2,"X")
         for item in rows:
-            print(item)
-        print("")    
+            print(item) 
         print("Score: "+str(self.score))
         print("")
     
@@ -108,7 +110,9 @@ class Game():
                 self.score-=3
                 self.invalid = not self.invalid
         elif command == "PASS":
-            pass
+            for item in self.target:
+                item.update()
+            self.target_update()
         else:
             if command == "SOUTH":
                 new_loc[0] -=1
@@ -211,7 +215,7 @@ class Game():
             self.display()
             command = input("Please state your next move: ")
             self.movement(command)
-            print("Target respawned: " + str(self.target_no))
+            
             
             
     def output(self):

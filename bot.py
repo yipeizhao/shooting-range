@@ -1,5 +1,5 @@
 def bot(loc, target, round_no):
-    command = "NA"
+    command = "PASS"
     player_row = loc[0];player_col = loc[1]
     if len(target) == 0:
         command = "PASS"
@@ -17,4 +17,6 @@ while (game.round_no<game.ROUND_MAX and game.target_no<game.TARGET_MAX):
     print(game.output())
     output = game.output()
     print(game.display())
-    game.movement(bot(output[0],output[1],output[2]))
+    command = bot(output[0],output[1],output[2])
+    print(command);print("")
+    game.movement(command)

@@ -12,7 +12,7 @@ class Game():
     # score: int, score +1 if a target is hitted; -3 if an invalid move
     # player: player object
     # TARGET_LOCATION: list of tuple of ints, all potential location of targets
-    # target: target object
+    # target: list of target objects
     # AVAILABLE_COL: list of floats(ints), stored all potential col of player movement in row 1
     # =============================================================================
     def __init__(self):
@@ -99,7 +99,7 @@ class Game():
         # The shot has to satisfy:
         # the player has to be in row 1(booth) and there is a target in the same col
         # If the shot is valid, remove the target and add one to the score
-        # Else, minus the score by 3 and invalid the game
+        # Else, warn the player, minus the score by 3 and invalid the game
         if command == "SHOOT":
             # Detect wether a the player is in row 1 and there is a target infront
             if new_loc[0] == 1 and (new_loc[1] in [item.col for item in self.target]):
@@ -149,7 +149,7 @@ class Game():
                self.invalid = not self.invalid
             else:
                 self.player.row = new_loc[0];self.player.col = new_loc[1]
-            # After command, targets are updated
+        # After player's move, targets are updated
         for item in self.target:
             item.update()
         self.target_update()
@@ -158,7 +158,7 @@ class Game():
     # target_update is called every round
     # targets will be append to the new target list if its remaining round isn't 0
     # Obatined all empty target location and generates targets with random prob;
-    # if successful, it will be appended to the new target list
+    # if successful and target max isn't reached, it will be appended to the new target list
     # type: None
     # rtype: None
     # =============================================================================
@@ -168,7 +168,7 @@ class Game():
             if item.remaining_round != 0:
                 new_targets.append(item)
         for item1 in (self.TARGET_LOCATION - set([item.loc for item in self.target])):
-            if random.random()<self.RESPAWN_PROB:
+            if random.random()<self.RESPAWN_PROB and self.target_no<self.TARGET_MAX:
                 new_targets.append(self.Target(item1,9))
                 self.target_no+=1
         self.target = new_targets
@@ -203,14 +203,6 @@ class Game():
         
     # =============================================================================
     # An interactive way to play the game, taking the command from the user
-    # Order:
-        # Increment round_no by 1
-        # Print the round_no
-        # Display the shooting range with player and targets(and the score)
-        # Asks for command
-        # Move the player with the given command
-        # Update targets
-        # Print no of targets spawned
     # =============================================================================
     def interactive(self):
          while(self.round_no < self.ROUND_MAX and self.target_no < self.TARGET_MAX):
@@ -218,8 +210,14 @@ class Game():
             command = input("Please state your next move: ")
             self.movement(command)
             
-            
-            
+    # =============================================================================
+    # Return results
+    # Player loc, targets and round no
+    # type: None
+    # rtype: list of ints
+    # rtype: list of Target objects
+    # rtype: int
+    # =============================================================================
     def output(self):
         return [[self.player.row,self.player.col],[(item.loc,item.remaining_round) for item in self.target],self.round_no]
     

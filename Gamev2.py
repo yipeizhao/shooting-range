@@ -12,8 +12,8 @@ class Game():
     # score: int, score +1 if a target is hitted; -3 if an invalid move
     # player: player object
     # TARGET_LOCATION: list of tuple of ints, all potential location of targets
-    # target: list of target objects
     # AVAILABLE_COL: list of floats(ints), stored all potential col of player movement in row 1
+    # target: list of target objects
     # =============================================================================
     def __init__(self):
         self.invalid = False

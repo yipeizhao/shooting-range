@@ -64,6 +64,7 @@ class Game():
     # rtype: None
     # =============================================================================
     def display(self):
+        print("Round no: " + str(self.round_no))
         rows = self.create_board(self.width)
         #Modifying row 1 according to targets
         for item in self.target:
@@ -86,6 +87,8 @@ class Game():
     # rtype: None    
     # =============================================================================
     def movement(self,command):
+        # Whenever a move is performed, add 1 to round no
+        self.round_no += 1
         # A new variable to store the new location of the player
         new_loc = [self.player.row,self.player.col]
         # If shoot is being called, we have to determine the validity of the shot
@@ -140,6 +143,10 @@ class Game():
                self.invalid = not self.invalid
             else:
                 self.player.row = new_loc[0];self.player.col = new_loc[1]
+            # After command, targets are updated
+            for item in self.target:
+                item.update()
+            self.target_update()
     
     # =============================================================================
     # target_update is called every round
@@ -201,19 +208,14 @@ class Game():
     # =============================================================================
     def interactive(self):
          while(self.round_no < self.ROUND_MAX and self.target_no < self.TARGET_MAX):
-            self.round_no += 1
-            print("Round no: " + str(self.round_no))
             self.display()
             command = input("Please state your next move: ")
             self.movement(command)
-            for item in self.target:
-                item.update()
-            self.target_update()
             print("Target respawned: " + str(self.target_no))
             
             
     def output(self):
-        return self.player.loc,self.target,self.round_no
+        return [[self.player.row,self.player.col],[(item.loc,item.remaining_round) for item in self.target],self.round_no]
     
     
 # =============================================================================
@@ -229,5 +231,5 @@ def string_replacement(s,i,c):
     new_s = "".join(new_s)
     return new_s
 
-game = Game()
-game.interactive()
+# game = Game()
+# game.interactive()

@@ -18,23 +18,27 @@ class Game():
     def __init__(self):
         self.invalid = False
         self.round_no = 0
-        self.target_no = 3
+        self.target_no = 1
         self.width = 5
         self.ROUND_MAX = 50
-        self.TARGET_MAX = 10 +4 
-        self.RESPAWN_PROB = 0.3
+        self.TARGET_MAX = 10
+        self.RESPAWN_PROB = 0.1
         self.score = 0
         self.player = self.Player(0,self.width - 1)
         self.TARGET_LOCATION = set([(3,item) for item in list(range(0,self.width,2))])
         if self.width%2 != 0:
-            self.target = [((3,item),9) for item in list(range(0,self.width,2))]
-            self.target = [self.Target(item[0],item[1]) for item in self.target]
             self.AVAILABLE_COL=list(range(0,self.width,2))
         else:
-            self.target = [((3,item),9) for item in list(range(0,self.width-1,2))]
-            self.target = [self.Target(item[0],item[1]) for item in self.target]
             self.AVAILABLE_COL=list(range(0,self.width-1,2))
-
+        # Initiates targets, make sure there is at least one target at the start
+        # And generates targets according to respawn prob
+        init_target = random.choice(list(self.TARGET_LOCATION))
+        self.target=[(self.Target(init_target,9))]
+        for i in range(len(self.TARGET_LOCATION)-1):
+            if random.random()<self.RESPAWN_PROB:
+                self.target.append(self.Target(list(self.TARGET_LOCATION)[i],9))
+                self.target_no += 1
+                
         
     # =============================================================================
     # Generating the shooting range
@@ -64,7 +68,6 @@ class Game():
     # rtype: None
     # =============================================================================
     def display(self):
-        print("")
         print("Round no: " + str(self.round_no))
         print("Target respawned: " + str(self.target_no))
         rows = self.create_board(self.width)
@@ -177,7 +180,7 @@ class Game():
     # col: int, col no
     # remaining_round: int, remaining round of the target
     # =============================================================================
-    class Target(object):
+    class Target():
         def __init__(self,loc,remaining_round):
             self.loc = loc
             self.row = self.loc[0]
@@ -192,7 +195,7 @@ class Game():
     # row: current row no of the player          
     # col: current col no of the player
     # =============================================================================
-    class Player(object):
+    class Player():
         def __init__(self,init_row,init_col):
             self.row = init_row
             self.col = init_col

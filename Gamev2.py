@@ -28,14 +28,9 @@ class Game():
         self.score = 0
         self.player = self.Player(0,self.width - 1)
         self.TARGET_LOCATION = set([(3,item) for item in list(range(0,self.width,2))])
-        if self.width%2 != 0:
-            temp = list(range(0,self.width,2))
-            self.AVAILABLE_LOC = [(1,item) for item in temp]
-            self.AVAILABLE_LOC += [(0,item) for item in list(range(0,self.width))]
-        else:
-            temp = list(range(0,self.width-1,2))
-            self.AVAILABLE_LOC = [(1,item) for item in temp]
-            self.AVAILABLE_LOC += [(0,item) for item in list(range(0,self.width))]
+        temp = list(range(0,self.width,2))
+        self.AVAILABLE_LOC = [(1,item) for item in temp]
+        self.AVAILABLE_LOC += [(0,item) for item in list(range(0,self.width))]
         # Initiates targets, make sure there is at least one target at the start
         # And generates targets according to respawn prob
         init_target = random.choice(list(self.TARGET_LOCATION))
@@ -214,9 +209,9 @@ class Game():
     def interactive(self):
         self.display()
         while(self.round_no < self.ROUND_MAX and self.target_no < self.TARGET_MAX):
-            self.display()
             command = input("Please state your next move: ")
             self.movement(command)
+            self.display()
             
     # =============================================================================
     # Return results

@@ -13,7 +13,7 @@ class Game():
     # score: 0<int, score +1 if a target is hitted; -3 if an invalid move
     # player: player object
     # TARGET_LOCATION: list of tuple of ints, all potential location of targets
-    # AVAILABLE_COL: list of floats(ints), stored all potential col of player movement in row 1
+    # AVAILABLE_LOC: list of floats(ints), stored all potential col of player movement in row 1
     # target: list of target objects
     # =============================================================================
     def __init__(self):
@@ -29,9 +29,13 @@ class Game():
         self.player = self.Player(0,self.width - 1)
         self.TARGET_LOCATION = set([(3,item) for item in list(range(0,self.width,2))])
         if self.width%2 != 0:
-            self.AVAILABLE_COL=list(range(0,self.width,2))
+            temp = list(range(0,self.width,2))
+            self.AVAILABLE_LOC = [(1,item) for item in temp]
+            self.AVAILABLE_LOC += [(0,item) for item in list(range(0,self.width))]
         else:
-            self.AVAILABLE_COL=list(range(0,self.width-1,2))
+            temp = list(range(0,self.width-1,2))
+            self.AVAILABLE_LOC = [(1,item) for item in temp]
+            self.AVAILABLE_LOC += [(0,item) for item in list(range(0,self.width))]
         # Initiates targets, make sure there is at least one target at the start
         # And generates targets according to respawn prob
         init_target = random.choice(list(self.TARGET_LOCATION))
@@ -67,9 +71,10 @@ class Game():
         def __init__(self,init_row,init_col):
             self.row = init_row
             self.col = init_col
+            
     # =============================================================================
     # Generating the shooting range
-    # type: int
+    # type: None
     # rtype: list of strings
     # =============================================================================
     def create_board(self):
@@ -145,11 +150,11 @@ class Game():
             self.target_update()
         else:
             if command == "SOUTH":
-                new_loc[0] -=1
+                new_loc[0] -= 1
             elif command == "NORTH":
-                new_loc[0]+=1
+                new_loc[0] += 1
             elif command == "WEST":
-                new_loc[1]-= 1
+                new_loc[1] -= 1
                 
             elif command == "EAST":
                 new_loc[1] += 1
@@ -167,11 +172,7 @@ class Game():
                 # score - 3
                 # invalid the game
             # Else, assign the current player loc to the new loc
-            if (new_loc[0]<0) or\
-               (new_loc[0]>1) or\
-               (new_loc[1]<0) or\
-               (new_loc[1]>self.width-1) or\
-               (new_loc[0] == 1 and new_loc[1] not in self.AVAILABLE_COL):
+            if (new_loc[0],new_loc[1]) not in self.AVAILABLE_LOC:
                print("You made an invalid move.")
                self.score -=3
                self.invalid = not self.invalid
@@ -243,5 +244,5 @@ def string_replacement(s,i,c):
     return new_s
 
 
-# game = Game()
-# game.interactive()
+game = Game()
+game.interactive()

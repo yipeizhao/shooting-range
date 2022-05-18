@@ -1,5 +1,5 @@
 import random
-from Gamev2 import Game
+from Gamev3 import Game
 
 
 def bot(loc, target, round_no):

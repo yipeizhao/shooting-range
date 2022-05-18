@@ -14,25 +14,29 @@ class Game():
     # score: 0<int, score +1 if a target is hitted; -3 if an invalid move
     # player: player object
     # TARGET_LOCATION: list of tuple of ints, all potential location of targets
-    # AVAILABLE_COL: list of floats(ints), stored all potential col of player movement in row 1
+    # AVAILABLE_LOC: list of floats(ints), stored all valid player's location
     # target: list of target objects
     # =============================================================================
     def __init__(self):
         self.invalid = False
         self.terminate = False
-        self.extend = True
+        self.extend = not False
         self.round_no = 0
+        self.target_no = 1
         self.width = 9
         self.ROUND_MAX = 50
-        self.TARGET_MAX = 10
-        self.RESPAWN_PROB = 0.1
+        self.TARGET_MAX = 20
+        self.RESPAWN_PROB = 0.2
         self.score = 0
         self.player = self.Player(0,self.width - 1)
         self.TARGET_LOCATION = set([(3,item) for item in list(range(0,self.width,2))])
-        if self.width%2 != 0:
-            self.AVAILABLE_COL=list(range(0,self.width,2))
-        else:
-            self.AVAILABLE_COL=list(range(0,self.width-1,2))
+        temp = list(range(0,self.width,2))
+        self.AVAILABLE_LOC = [(1,item) for item in temp]
+        self.AVAILABLE_LOC += [(0,item) for item in list(range(0,self.width))]
+        if self.extend:
+            self.TARGET_LOCATION=self.TARGET_LOCATION.union(set([(-3,item) for item in list(range(0,self.width,2))]))
+            self.AVAILABLE_LOC += [(-1,item) for item in temp]
+
         # Initiates targets, make sure there is at least one target at the start
         # And generates targets according to respawn prob
         init_target = random.choice(list(self.TARGET_LOCATION))
@@ -91,11 +95,18 @@ class Game():
             rows[3] = rows[3][:-1]+"|"
         rows[4] += "_"*(2*width-2)+"| "
         if self.extend:
-            rows.append("-1|_");rows.append("-2|");rows.append("-3|")
-            rows[4] = " 0| " + " _  "*int((width-1)/2)+"|"
-            rows[5] += "| |_"*int(((width-1)/2))+"|"
-            rows[6] += " "*(width*2-1) +"|"
-            rows[7] += "_"*(width*2-1) +"|"
+            if self.width%2 != 0:
+                rows.append("-1|_");rows.append("-2|");rows.append("-3|")
+                rows[4] = " 0| " + " _  "*int((width-1)/2)+"|"
+                rows[5] += "| |_"*int(((width)/2))+"|"
+                rows[6] += " "*(width*2-1) +"|"
+                rows[7] += "_"*(width*2-1) +"|"
+            else:
+                rows.append("-1|_");rows.append("-2|");rows.append("-3|")
+                rows[4] = " 0| " + " _  "*int((width)/2-1)+"  |"
+                rows[5] += "| |_"*int(((width)/2)-1)+"| |"
+                rows[6] += " "*(width*2-1) +"|"
+                rows[7] += "_"*(width*2-1) +"|"
         return rows
     
     # =============================================================================
@@ -109,13 +120,18 @@ class Game():
         rows = self.create_board()
         #Modifying row 1 according to targets
         for item in self.target:
-            rows[1] = string_replacement(rows[1],item.col*2+2,item.remaining_round)
+            if item.row == 3:
+                rows[1] = string_replacement(rows[1],item.col*2+3,item.remaining_round)
+            else:
+                rows[7] = string_replacement(rows[7],item.col*2+3,item.remaining_round)
         
-        # Modifying row 4 according to player
+        # Modifying row 3,4,5 according to player
         if self.player.row == 0:
-            rows[4] = string_replacement(rows[4],self.player.col*2+2,"X")
-        else:
-            rows[3] = string_replacement(rows[3],self.player.col*2+2,"X")
+            rows[4] = string_replacement(rows[4],self.player.col*2+3,"X")
+        elif self.player.row == 1:
+            rows[3] = string_replacement(rows[3],self.player.col*2+3,"X")
+        elif self.player.row == -1:
+            rows[5] = string_replacement(rows[5],self.player.col*2+3,"X")
         for item in rows:
             print(item) 
         print("Score: "+str(self.score))
@@ -133,17 +149,18 @@ class Game():
         new_loc = [self.player.row,self.player.col]
         # If shoot is being called, we have to determine the validity of the shot
         # The shot has to satisfy:
-        # the player has to be in row 1(booth) and there is a target in the same col
+        # the player has to be 2 units away from a target and there is a target in the same col
         # If the shot is valid, remove the target and add one to the score
         # Else, warn the player, minus the score by 3 and invalid the game
         if command == "SHOOT":
+            flag = False
             # Detect wether a the player is in row 1 and there is a target infront
-            if new_loc[0] == 1 and (new_loc[1] in [item.col for item in self.target]):
-                for item in self.target:
-                        if item.col == new_loc[1]:
-                            self.target.remove(item)
-                            self.score += 1
-            else:
+            for item in self.target:
+                    if (item.col == new_loc[1] and (item.row == new_loc[0]+2 or item.row == new_loc[0]-2)):
+                        self.target.remove(item)
+                        self.score += 1
+                        flag = True
+            if not flag: 
                 print("You made an invalid shot.")
                 self.score-=3
                 self.invalid = not self.invalid
@@ -153,33 +170,24 @@ class Game():
             self.target_update()
         else:
             if command == "SOUTH":
-                new_loc[0] -=1
+                new_loc[0] -= 1
             elif command == "NORTH":
-                new_loc[0]+=1
+                new_loc[0] += 1
             elif command == "WEST":
-                new_loc[1]-= 1
+                new_loc[1] -= 1
                 
             elif command == "EAST":
                 new_loc[1] += 1
             else:
                 print("You entered an invalid command.")
                 self.score -=3
-            # Invalid locs:
-            # row no < 0 (south wall)
-            # row no > 1 (north wall)
-            # col no < 1 (west wall)
-            # col no > width - 1 (east wall)
-            # row no = 1 and odd col (wall between booths)
-            # If an invalid loc is called:
+            # Check whether the new location is valid
+            # If an invalid loc is entered:
                 # warn the player
                 # score - 3
                 # invalid the game
             # Else, assign the current player loc to the new loc
-            if (new_loc[0]<0) or\
-               (new_loc[0]>1) or\
-               (new_loc[1]<0) or\
-               (new_loc[1]>self.width-1) or\
-               (new_loc[0] == 1 and new_loc[1] not in self.AVAILABLE_COL):
+            if (new_loc[0],new_loc[1]) not in self.AVAILABLE_LOC:
                print("You made an invalid move.")
                self.score -=3
                self.invalid = not self.invalid
@@ -221,9 +229,9 @@ class Game():
     def interactive(self):
         self.display()
         while(self.round_no < self.ROUND_MAX and self.target_no < self.TARGET_MAX):
-            self.display()
             command = input("Please state your next move: ")
             self.movement(command)
+            self.display()
             
     # =============================================================================
     # Return results
@@ -251,5 +259,5 @@ def string_replacement(s,i,c):
     return new_s
 
 
-game = Game()
+# game = Game()
 # game.interactive()

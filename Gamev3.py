@@ -3,7 +3,7 @@ class Game():
     # =============================================================================
     # Initialise the game
     # invalid: bool, invalid game if an invalid move has been performed
-    # terminate: bool, the game will terminate if max rounds or max targets is reached
+    # double_side: bool,
     # round_no: 0<int, starting the game with round number = 0
     # target_no: 0<int, number of targets(ID given to a target)
     # width: 0<int<10, width of the shooting range, should be less than 10
@@ -18,7 +18,7 @@ class Game():
     # =============================================================================
     def __init__(self):
         self.invalid = False
-        self.terminate = False
+        self.double_side = False 
         self.round_no = 0
         self.target_no = 1
         self.width = 5
@@ -73,7 +73,7 @@ class Game():
     # rtype: list of strings
     # =============================================================================
     def create_board(self):
-        width = self.width
+        width =self.width
         rows = ["  ","3|","2|_","1|","0|_"]
         for i in range(width):
             rows[0] += str(i)+"_"
@@ -88,6 +88,8 @@ class Game():
             rows[3] += " |_|"*int(((width-1)/2)+1)
             rows[3] = rows[3][:-1]+"|"
         rows[4] += "_"*(2*width-2)+"| "
+        if self.double_side:
+            return rows
         return rows
     
     # =============================================================================
@@ -181,8 +183,6 @@ class Game():
         for item in self.target:
             item.update()
         self.target_update()
-        if self.round_no == self.ROUND_MAX:
-            self.terminate = True
     
     # =============================================================================
     # target_update is called every round
@@ -202,8 +202,6 @@ class Game():
                 new_targets.append(self.Target(item1,9))
                 self.target_no+=1
         self.target = new_targets
-        if self.target_no == self.TARGET_MAX and len(new_targets) == 0:
-            self.terminate = True
         
                         
         

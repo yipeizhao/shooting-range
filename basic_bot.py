@@ -60,7 +60,7 @@ def bot(loc, target, round_no):
 
 game = Game()
 game.display()
-while game.round_no < game.ROUND_MAX or game.target_no < game.TARGET_MAX:
+while not game.terminate:
     print(game.output())
     output = game.output()
     command = bot(output[0], output[1], output[2])

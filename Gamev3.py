@@ -122,7 +122,7 @@ class Game():
         for item in self.target:
             if item.row == 3:
                 rows[1] = string_replacement(rows[1],item.col*2+3,item.remaining_round)
-            else:
+            elif item.row == -3:
                 rows[7] = string_replacement(rows[7],item.col*2+3,item.remaining_round)
         
         # Modifying row 3,4,5 according to player
@@ -149,14 +149,16 @@ class Game():
         new_loc = [self.player.row,self.player.col]
         # If shoot is being called, we have to determine the validity of the shot
         # The shot has to satisfy:
-        # the player has to be 2 units away from a target and there is a target in the same col
+        # there is a target in the same col and the player has to be 2 units away from a target
         # If the shot is valid, remove the target and add one to the score
         # Else, warn the player, minus the score by 3 and invalid the game
         if command == "SHOOT":
             flag = False
             # Detect wether a the player is in row 1 and there is a target infront
+            # In the if statement:
+                # The foirst
             for item in self.target:
-                    if (item.col == new_loc[1] and (item.row == new_loc[0]+2 or item.row == new_loc[0]-2)):
+                    if (item.col == new_loc[1]) and (item.row == new_loc[0]+2 or item.row == new_loc[0]-2):
                         self.target.remove(item)
                         self.score += 1
                         flag = True
@@ -165,9 +167,7 @@ class Game():
                 self.score-=3
                 self.invalid = not self.invalid
         elif command == "PASS":
-            for item in self.target:
-                item.update()
-            self.target_update()
+            pass
         else:
             if command == "SOUTH":
                 new_loc[0] -= 1
@@ -244,7 +244,11 @@ class Game():
     def output(self):
         return [[self.player.row,self.player.col],[(item.loc,item.remaining_round) for item in self.target],self.round_no]
     
-    
+    # =============================================================================
+    # Reinitiate the game
+    # =============================================================================
+    def reset(self):
+        self.__init__()
 # =============================================================================
 # Replace the char c in a string s given index i
 # type s, string
@@ -259,5 +263,5 @@ def string_replacement(s,i,c):
     return new_s
 
 
-# game = Game()
-# game.interactive()
+game = Game()
+game.interactive()

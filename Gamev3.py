@@ -145,8 +145,6 @@ class Game():
     def movement(self,command):
         # Whenever a move is performed, add 1 to round no
         self.round_no += 1
-        # A new variable to store the new location of the player
-        new_loc = [self.player.row,self.player.col]
         # If shoot is being called, we have to determine the validity of the shot
         # The shot has to satisfy:
         # there is a target in the same col and the player has to be 2 units away from a target
@@ -158,7 +156,7 @@ class Game():
             # In the if statement:
                 # The foirst
             for item in self.target:
-                    if (item.col == new_loc[1]) and (item.row == new_loc[0]+2 or item.row == new_loc[0]-2):
+                    if (item.col == self.player.col) and (item.row == self.player.row+2 or item.row == self.player.row-2):
                         self.target.remove(item)
                         self.score += 1
                         flag = True
@@ -169,6 +167,8 @@ class Game():
         elif command == "PASS":
             pass
         else:
+            # A new variable to store the new location of the player
+            new_loc = [self.player.row,self.player.col]
             if command == "SOUTH":
                 new_loc[0] -= 1
             elif command == "NORTH":

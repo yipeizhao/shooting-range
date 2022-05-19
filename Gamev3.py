@@ -213,12 +213,16 @@ class Game():
         for item in self.target:
             if item.remaining_round != 0:
                 new_targets.append(item)
+        # Find all empty target location and iterates through them
+        # generates a target if successful
         for item1 in (self.TARGET_LOCATION - set([item.loc for item in self.target])):
             if random.random()<self.RESPAWN_PROB and self.target_no<self.TARGET_MAX:
                 new_targets.append(self.Target(item1,9))
                 self.target_no+=1
         self.target = new_targets
-        if self.target_no == self.TARGET_MAX and len(new_targets) == 0:
+        # If target no reaches its maximum and no target left in the shooting range
+        # terminates the game
+        if (self.target_no == self.TARGET_MAX) and (len(new_targets) == 0):
             self.terminate = True
         
                         
@@ -246,6 +250,8 @@ class Game():
     
     # =============================================================================
     # Reinitiate the game
+    # type: None
+    # rtype: None
     # =============================================================================
     def reset(self):
         self.__init__()

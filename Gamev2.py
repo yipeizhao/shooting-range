@@ -220,7 +220,13 @@ class Game():
     def output(self):
         return [[self.player.row,self.player.col],[(item.loc,item.remaining_round) for item in self.target],self.round_no]
     
-    
+    # =============================================================================
+    # Reinitiate the game
+    # type: None
+    # rtype: None
+    # =============================================================================
+    def reset(self):
+        self.__init__()
 # =============================================================================
 # Replace the char c in a string s given index i
 # type s, string

@@ -273,5 +273,5 @@ def string_replacement(s,i,c):
     return new_s
 
 
-game = Game()
-game.interactive()
+# game = Game()
+# game.interactive()

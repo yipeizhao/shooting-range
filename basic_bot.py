@@ -1,5 +1,5 @@
 import random
-from Gamev3 import Game
+# from Gamev3 import Game
 
 
 def bot(loc, target, round_no):
@@ -58,12 +58,12 @@ def bot(loc, target, round_no):
         return random.choice(["EAST", "WEST"])
 
 
-game = Game()
-game.display()
-while not game.terminate:
-    print(game.output())
-    output = game.output()
-    command = bot(output[0], output[1], output[2])
-    print(command)
-    game.movement(command)
-    game.display()
+# game = Game()
+# game.display()
+# while not game.terminate:
+#     print(game.output())
+#     output = game.output()
+#     command = bot(output[0], output[1], output[2])
+#     print(command)
+#     game.movement(command)
+#     game.display()

@@ -14,7 +14,12 @@ def bot(loc, target, round_no):
             
     # Case 1
     if len(target) == 0:
-        return "PASS"
+        if player_row == 0:
+            return "PASS"
+        elif player_row == 1:
+            return "SOUTH"
+        elif player_row == -1:
+            return "NORTH"
 
     # Case 2 & 3
     if player_col in target_col:
@@ -71,12 +76,12 @@ def bot(loc, target, round_no):
         return random.choice(["EAST", "WEST"])
 
 
-game = Game()
-game.display()
-while not game.terminate:
-    print(game.output())
-    output = game.output()
-    command = bot(output[0], output[1], output[2])
-    print(command)
-    game.movement(command)
-    game.display()
+# game = Game()
+# game.display()
+# while not game.terminate:
+#     print(game.output())
+#     output = game.output()
+#     command = bot(output[0], output[1], output[2])
+#     print(command)
+#     game.movement(command)
+#     game.display()

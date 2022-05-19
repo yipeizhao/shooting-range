@@ -5,13 +5,13 @@ class Game():
     # invalid: bool, invalid game if an invalid move has been performed
     # terminate: bool, the game will terminate if max rounds or max targets is reached
     # extend: bool, extend the shooting range
-    # round_no: 0<int, starting the game with round number = 0
-    # target_no: 0<int, number of targets(ID given to a target)
+    # round_no: 0<=int, starting the game with round number = 0
+    # target_no: 0<=int, number of targets(ID given to a target)
     # width: 0<int<10, width of the shooting range, should be less than 10
     # ROUND_MAX: 0<int, game will stop if reaches max rounds
     # TARGET_MAX: 0<int, game will stop if reaches max targets
-    # RESPWAN_PROB: 0< float < 1; probability of targets respwan
-    # score: 0<int, score +1 if a target is hitted; -3 if an invalid move
+    # RESPWAN_PROB: 0<= float <= 1; probability of targets respwan
+    # score: 0<=int, score +1 if a target is hitted; -3 if an invalid move
     # player: player object
     # TARGET_LOCATION: list of tuple of ints, all potential location of targets
     # AVAILABLE_LOC: list of floats(ints), stored all valid player's location
@@ -22,7 +22,7 @@ class Game():
         self.terminate = False
         self.extend = not False
         self.round_no = 0
-        self.target_no = 1
+        self.target_no = 0
         self.width = 9
         self.ROUND_MAX = 50
         self.TARGET_MAX = 20
@@ -48,6 +48,7 @@ class Game():
         if len(self.target) == 0:
             init_target = random.choice(list(self.TARGET_LOCATION))
             self.target=[(self.Target(init_target,9))]
+            self.target_no += 1
                 
     # =============================================================================
     # An instance of a target

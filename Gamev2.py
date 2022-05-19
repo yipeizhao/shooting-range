@@ -20,7 +20,7 @@ class Game():
         self.invalid = False
         self.terminate = False
         self.round_no = 0
-        self.target_no = 1
+        self.target_no = 0
         self.width = 5
         self.ROUND_MAX = 50
         self.TARGET_MAX = 10
@@ -43,6 +43,7 @@ class Game():
         if len(self.target) == 0:
             init_target = random.choice(list(self.TARGET_LOCATION))
             self.target=[(self.Target(init_target,9))]
+            self.target_no += 1
                 
     # =============================================================================
     # An instance of a target

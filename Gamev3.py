@@ -37,14 +37,17 @@ class Game():
             self.TARGET_LOCATION=self.TARGET_LOCATION.union(set([(-3,item) for item in list(range(0,self.width,2))]))
             self.AVAILABLE_LOC += [(-1,item) for item in temp]
 
-        # Initiates targets, make sure there is at least one target at the start
-        # And generates targets according to respawn prob
-        init_target = random.choice(list(self.TARGET_LOCATION))
-        self.target=[(self.Target(init_target,9))]
-        for i in range(len(self.TARGET_LOCATION)-1):
+        # Initiates targets
+        # If no targets are generated initially, randomly choose a target location to spawn a target
+        # Ensuring that there is at least one target at the start of the game
+        self.target = []
+        for i in range(len(self.TARGET_LOCATION)):
             if random.random()<self.RESPAWN_PROB:
                 self.target.append(self.Target(list(self.TARGET_LOCATION)[i],9))
                 self.target_no += 1
+        if len(self.target) == 0:
+            init_target = random.choice(list(self.TARGET_LOCATION))
+            self.target=[(self.Target(init_target,9))]
                 
     # =============================================================================
     # An instance of a target

@@ -121,29 +121,30 @@ class Game():
     def movement(self,command):
         # Whenever a move is performed, add 1 to round no
         self.round_no += 1
-        # A new variable to store the new location of the player
-        new_loc = [self.player.row,self.player.col]
         # If shoot is being called, we have to determine the validity of the shot
         # The shot has to satisfy:
-        # the player has to be in row 1(booth) and there is a target in the same col
+        # there is a target in the same col and the player has to be 2 units away from a target
         # If the shot is valid, remove the target and add one to the score
         # Else, warn the player, minus the score by 3 and invalid the game
         if command == "SHOOT":
+            flag = False
             # Detect wether a the player is in row 1 and there is a target infront
-            if new_loc[0] == 1 and (new_loc[1] in [item.col for item in self.target]):
-                for item in self.target:
-                        if item.col == new_loc[1]:
-                            self.target.remove(item)
-                            self.score += 1
-            else:
+            # In the if statement:
+                # The foirst
+            for item in self.target:
+                    if (item.col == self.player.col) and (item.row == self.player.row+2 or item.row == self.player.row-2):
+                        self.target.remove(item)
+                        self.score += 1
+                        flag = True
+            if not flag: 
                 print("You made an invalid shot.")
                 self.score-=3
                 self.invalid = not self.invalid
         elif command == "PASS":
-            for item in self.target:
-                item.update()
-            self.target_update()
+            pass
         else:
+            # A new variable to store the new location of the player
+            new_loc = [self.player.row,self.player.col]
             if command == "SOUTH":
                 new_loc[0] -= 1
             elif command == "NORTH":
@@ -156,13 +157,8 @@ class Game():
             else:
                 print("You entered an invalid command.")
                 self.score -=3
-            # Invalid locs:
-            # row no < 0 (south wall)
-            # row no > 1 (north wall)
-            # col no < 1 (west wall)
-            # col no > width - 1 (east wall)
-            # row no = 1 and odd col (wall between booths)
-            # If an invalid loc is called:
+            # Check whether the new location is valid
+            # If an invalid loc is entered:
                 # warn the player
                 # score - 3
                 # invalid the game

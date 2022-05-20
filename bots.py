@@ -97,13 +97,6 @@ def smart_bot(loc, target, round_no):
             return "SOUTH"
         elif player_row == -1:
             return "NORTH"
-        
-    # Strategy 1
-    # Scan all targets and drop unreachable targets
-    # If distance + 3(NORTH and SHOOT) > remaining round, classify it as an invalid target and remove it from the list
-    for item in target:
-        if (abs(item[0][1] - player_col) +3 > item[1]):
-            target.remove(item)
             
     # Case 2 & 3
     for item in target:
@@ -118,11 +111,18 @@ def smart_bot(loc, target, round_no):
                 # Case 2.2
                 elif item[0][0] == -3:
                     return "SOUTH"
+    # Strategy 1
+    # Scan all targets and drop unreachable targets
+    # If distance + 3(NORTH and SHOOT) > remaining round, classify it as an invalid target and remove it from the list
+    for item in target:
+        if (abs(item[0][1] - player_col) +3 > item[1]):
+            target.remove(item)
 
     # Case 4
     if player_row == 1 and player_col not in target_col:
         return "SOUTH"
-    
+    if player_row == -1 and player_col not in target_col:
+        return "NORTH"
     # Determine the position of player respect to targets
     # Append the players' col to the target col's list and sort
     # Case 5 example:

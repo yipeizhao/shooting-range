@@ -6,6 +6,7 @@ class Game():
     # terminate: bool, the game will terminate if max rounds or max targets is reached
     # round_no: 0<=int, starting the game with round number = 0
     # target_no: 0<=int, number of targets(ID given to a target)
+    # hit: 0<=int, number of targets hit
     # width: 0<int<10, width of the shooting range, should be less than 10
     # ROUND_MAX: 0<int, game will stop if reaches max rounds
     # TARGET_MAX: 0<int, game will stop if reaches max targets
@@ -21,10 +22,11 @@ class Game():
         self.terminate = False
         self.round_no = 0
         self.target_no = 0
-        self.width = 5
+        self.hit = 0
+        self.width = 9
         self.ROUND_MAX = 50
-        self.TARGET_MAX = 10
-        self.RESPAWN_PROB = 0.1
+        self.TARGET_MAX = 20
+        self.RESPAWN_PROB = 0.075
         self.score = 0
         self.player = self.Player(0,self.width - 1)
         self.TARGET_LOCATION = set([(3,item) for item in list(range(0,self.width,2))])
@@ -140,6 +142,7 @@ class Game():
                     if (item.col == self.player.col) and (item.row == self.player.row+2 or item.row == self.player.row-2):
                         self.target.remove(item)
                         self.score += 1
+                        self.hit += 1
                         flag = True
             if not flag: 
                 print("You made an invalid shot.")
@@ -232,6 +235,22 @@ class Game():
     # =============================================================================
     def reset(self):
         self.__init__()
+        
+    # =============================================================================
+    # Return the final result of the game
+    # type: None
+    # rtype: bool
+    # rtype: int
+    # rtype: int
+    # rtype: int
+    # rtype: int
+    # =============================================================================
+    def result(self):
+        if self.terminate:
+            return self.invalid, self.score, self.target_no, self.hit, self.target_no - self.hit
+        else:
+            raise Exception("The game hasn't been terminated.")
+        
 # =============================================================================
 # Replace the char c in a string s given index i
 # type s, string
@@ -246,5 +265,5 @@ def string_replacement(s,i,c):
     return new_s
 
 
-game = Game()
-game.interactive()
+# game = Game()
+# game.interactive()

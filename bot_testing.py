@@ -9,21 +9,21 @@ results = [[], [], []]
 for i in range(10):
     while not game.terminate:
         output = game.output()
-        command = random_bot(output[0], output[1], output[2])
+        command = random_bot(*output)
         game.movement(command)
     results[0].append(game.result())
     game.reset()
 
     while not game.terminate:
         output = game.output()
-        command = basic_bot(output[0], output[1], output[2])
+        command = basic_bot(*output)
         game.movement(command)
     results[1].append(game.result())
     game.reset()
 
     while not game.terminate:
         output = game.output()
-        command = smart_bot(output[0], output[1], output[2])
+        command = smart_bot(*output)
         game.movement(command)
     results[2].append(game.result())
     game.reset()

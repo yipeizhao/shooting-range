@@ -5,6 +5,7 @@ import pandas as pd
 game = Game()
 results = [[], [], []]
 
+# Simulation game 10 times
 for i in range(10):
     while not game.terminate:
         output = game.output()
@@ -27,11 +28,14 @@ for i in range(10):
     results[2].append(game.result())
     game.reset()
 
+# Record results for every bot
 random = pd.DataFrame(columns={"Invalid": "",
                                "Score": "",
                                "Targets_spawned": "",
                                "Hit": "",
                                "Miss": ""})
+
+# Copy the dataframe
 basic = random.copy()
 smart = random.copy()
 
@@ -42,6 +46,7 @@ for index, val in enumerate(results[1]):
 for index, val in enumerate(results[2]):
     smart.loc[index] = val
 
+# Aggregating the results
 res = pd.DataFrame(columns={"Bot": "",
                             "Invalid games": "",
                             "Score": "",

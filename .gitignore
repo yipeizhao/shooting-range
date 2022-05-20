@@ -1,5 +1,3 @@
 
 test_game.py
-*.pyc
-*.pyc
-*.pyc
+__pycache__

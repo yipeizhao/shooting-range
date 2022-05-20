@@ -165,7 +165,7 @@ class Game:
             elif command == "EAST":
                 new_loc[1] += 1
             else:
-                print("You entered an invalid command.")
+               # print("You entered an invalid command.")
                 self.score -= 3
             # Check whether the new location is valid
             # If an invalid loc is entered:

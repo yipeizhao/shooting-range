@@ -1,21 +1,61 @@
 from Gamev2 import Game
-from smart_bot import bot
+from bots import *
 import pandas as pd
+
 game = Game()
-results = []
+results = [[], [], []]
+
 for i in range(10):
     while not game.terminate:
         output = game.output()
-        command = bot(output[0], output[1], output[2])
+        command = random_bot(output[0], output[1], output[2])
         game.movement(command)
-    results.append(game.result())
+    results[0].append(game.result())
     game.reset()
-    
-df = pd.DataFrame(columns = {"Valid":"",
-                          "Score":"",
-                          "Targets spawned":"",
-                          "Hit":"",
-                          "Miss":""})
-for index,val in enumerate(results):
-    df.loc[index] = val
-print(df)
+
+    while not game.terminate:
+        output = game.output()
+        command = basic_bot(output[0], output[1], output[2])
+        game.movement(command)
+    results[1].append(game.result())
+    game.reset()
+
+    while not game.terminate:
+        output = game.output()
+        command = smart_bot(output[0], output[1], output[2])
+        game.movement(command)
+    results[2].append(game.result())
+    game.reset()
+
+random = pd.DataFrame(columns={"Invalid": "",
+                               "Score": "",
+                               "Targets_spawned": "",
+                               "Hit": "",
+                               "Miss": ""})
+basic = random.copy()
+smart = random.copy()
+
+for index, val in enumerate(results[0]):
+    random.loc[index] = val
+for index, val in enumerate(results[1]):
+    basic.loc[index] = val
+for index, val in enumerate(results[2]):
+    smart.loc[index] = val
+
+res = pd.DataFrame(columns={"Bot": "",
+                            "Invalid games": "",
+                            "Score": "",
+                            "Targets_spawned": "",
+                            "Hit": "",
+                            "Miss": ""})
+
+res.loc[0] = ["Random", list(random.Invalid).count(True),
+              sum(random.Score), sum(random.Targets_spawned),
+              sum(random.Hit), sum(random.Miss)]
+res.loc[1] = ["Basic", list(basic.Invalid).count(True),
+              sum(basic.Score), sum(basic.Targets_spawned),
+              sum(basic.Hit), sum(basic.Miss)]
+res.loc[2] = ["Smart", list(smart.Invalid).count(True),
+              sum(smart.Score), sum(smart.Targets_spawned),
+              sum(smart.Hit), sum(smart.Miss)]
+print(res)

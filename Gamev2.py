@@ -198,7 +198,7 @@ class Game:
     def target_update(self):
         new_targets = []
         for item in self.target:
-            if item.remaining_round != 0:
+            if item.remaining_round > 0:
                 new_targets.append(item)
         for item1 in (self.TARGET_LOCATION - set([item.loc for item in self.target])):
             if random.random() < self.RESPAWN_PROB and self.target_no < self.TARGET_MAX:

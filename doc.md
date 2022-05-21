@@ -181,7 +181,7 @@ None
 - hit: 0 ≤ int ≤ `Game.TARGET_MAX`. Number of targets been shot.
 - miss: 0≤ int ≤ `Game.TARGET_MAX`. Number of targets missed.
 
-string_replacement(s,i,c):
+***string_replacement(s,i,c):***
 
 Replace the character with index i in string s with c.
 

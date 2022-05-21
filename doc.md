@@ -2,7 +2,7 @@
 
 # Requirement
 
-[Instructions.pdf](shooting%20range%2011c8126a1e464d91a43c10e26eee1c61/Instructions.pdf)
+[Instructions.pdf](Instructions.pdf)
 
 # Files and methods
 
@@ -199,9 +199,9 @@ Replace the character with index i in string s with c.
 
 - display will go wrong if width > 10
 - extend: no underscore for X char
-    
+
     basic bot:
-    
+
 
 | case | player row  | player col | target | command | priority |
 | --- | --- | --- | --- | --- | --- |

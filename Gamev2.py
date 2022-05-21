@@ -24,7 +24,7 @@ class Game:
     # type: float
     # rtype: None
     # =============================================================================
-    def __init__(self,WIDTH=5,ROUND_MAX=50,TARGET_MAX=20,RESPAWN_PROB=0.1):
+    def __init__(self, WIDTH=5, ROUND_MAX=50, TARGET_MAX=20, RESPAWN_PROB=0.1):
         self.invalid = False
         self.terminate = False
         self.round_no = 0
@@ -84,36 +84,38 @@ class Game:
 
     # =============================================================================
     # Generating the shooting range
-    # type: None
+    # type: int
     # rtype: list of strings
     # =============================================================================
-    def create_board(self):
-        WIDTH = self.WIDTH
+    def create_board(self, width=None):
+        if width is None:
+            width = self.WIDTH
         rows = ["  ", "3|", "2|_", "1|", "0|_"]
-        for i in range(WIDTH):
+        for i in range(width):
             rows[0] += str(i) + "_"
         rows[0] = rows[0][:-1]
         rows[0] += "|"
-        rows[1] += " " * (WIDTH * 2 - 1) + "|"
-        if WIDTH % 2 != 0:
-            rows[2] += "   _" * int(((WIDTH - 1) / 2)) + "|"
-            rows[3] += " |_|" * int(((WIDTH - 1) / 2)) + " |"
+        rows[1] += " " * (width * 2 - 1) + "|"
+        if width % 2 != 0:
+            rows[2] += "   _" * int(((width - 1) / 2)) + "|"
+            rows[3] += " |_|" * int(((width - 1) / 2)) + " |"
         else:
-            rows[2] += "   _" * int(((WIDTH - 1) / 2)) + "  |"
-            rows[3] += " |_|" * int(((WIDTH - 1) / 2) + 1)
+            rows[2] += "   _" * int(((width - 1) / 2)) + "  |"
+            rows[3] += " |_|" * int(((width - 1) / 2) + 1)
             rows[3] = rows[3][:-1] + "|"
-        rows[4] += "_" * (2 * WIDTH - 2) + "| "
+        rows[4] += "_" * (2 * width - 2) + "| "
         return rows
 
     # =============================================================================
     # Displaying the whole board with targets and player
-    # type: None
+    # type: list of strings
     # rtype: None
     # =============================================================================
-    def display(self):
+    def display(self, rows=None):
+        if rows is None:
+            rows = self.create_board()
         print("Round no: " + str(self.round_no))
         print("Target respawned: " + str(self.target_no))
-        rows = self.create_board()
         # Modifying row 1 according to targets
         for item in self.target:
             rows[1] = string_replacement(rows[1], item.col * 2 + 2, item.remaining_round)
@@ -170,7 +172,7 @@ class Game:
             elif command == "EAST":
                 new_loc[1] += 1
             else:
-               # print("You entered an invalid command.")
+                # print("You entered an invalid command.")
                 self.score -= 3
             # Check whether the new location is valid
             # If an invalid loc is entered:

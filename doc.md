@@ -92,7 +92,7 @@ Generates the empty shooting range using strings.
 
 **Parameters:**
 
-- width: 0 < int < 10. The width of the shooting range. If this is None, the function will retrieve `Game.WIDTH`.
+- width: 0 < int < 10. The width of the shooting range. If this is None, the function will retrieve `Game.WIDTH` as it's parameter.
 
 **Returns:**
 
@@ -107,7 +107,7 @@ Display the shooting range with targets and players. To accomplish the goal, an 
 
 **Parameters:**
 
-- rows: list of strings. The empty shooting range. If this is None, the function will call ***Game.create_board(width=None).***
+- rows: list of strings. The empty shooting range. If this is None, the function will call ***Game.create_board(width=None)*** as its parameter.
 
 **Returns:**
 

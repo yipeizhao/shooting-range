@@ -11,7 +11,7 @@ class Test(unittest.TestCase):
     def test_target_creation(self):
         for i in range(50):
             game.reset()
-            r_row = random.randint(0,game.width)
+            r_row = random.randint(0,game.WIDTH)
             r_col = 3
             r_remaining_round = random.randint(2,9)
             target_arg = ((r_row,r_col), r_remaining_round)
@@ -24,7 +24,7 @@ class Test(unittest.TestCase):
     # Target expiration
     def test_target_expiration(self):
         game.reset()
-        r_row = random.randint(0,game.width)
+        r_row = random.randint(0,game.WIDTH)
         r_col = 3
         game.target = [game.Target((r_row,r_col),2)]
         game.movement("PASS")
@@ -59,7 +59,7 @@ class Test(unittest.TestCase):
         game.movement("EAST")
         self.assertEqual(cur_loc, (game.player.row, game.player.col))
         self.assertEqual(-3 ,game.score)
-        if game.width % 2 == 0:
+        if game.WIDTH % 2 == 0:
             game.movement("WEST")
             game.movement("NORTH")
             game.movement("SOUTH")
@@ -74,8 +74,8 @@ class Test(unittest.TestCase):
     # Test shooting command
     def test_shoot(self):
         game.reset()
-        if game.width%2 == 0:
-            game.target = [game.Target((3,game.width-2),10)]
+        if game.WIDTH%2 == 0:
+            game.target = [game.Target((3,game.WIDTH-2),10)]
             game.movement("WEST")
             game.movement("SHOOT")
             self.assertEqual(-3, game.score)
@@ -84,7 +84,7 @@ class Test(unittest.TestCase):
             self.assertEqual(-2, game.score)
             
             game.reset()
-            game.target = [game.Target((3,game.width-2),1)]
+            game.target = [game.Target((3,game.WIDTH-2),1)]
             game.movement("SHOOT")
             self.assertEqual(-3, game.score)
             game.movement("NORTH")
@@ -92,7 +92,7 @@ class Test(unittest.TestCase):
             self.assertEqual(-6, game.score)
             
         else:
-            game.target = [game.Target((3,game.width-1),10)]
+            game.target = [game.Target((3,game.WIDTH-1),10)]
             game.movement("SHOOT")
             self.assertEqual(-3, game.score)
             game.movement("NORTH")

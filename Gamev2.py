@@ -24,22 +24,22 @@ class Game:
     # type: float
     # rtype: None
     # =============================================================================
-    def __init__(self,width=5,ROUND_MAX=50,TARGET_MAX=20,RESPAWN_PROB=0.1):
+    def __init__(self,WIDTH=5,ROUND_MAX=50,TARGET_MAX=20,RESPAWN_PROB=0.1):
         self.invalid = False
         self.terminate = False
         self.round_no = 0
         self.target_no = 0
         self.hit = 0
-        self.width = width
+        self.WIDTH = WIDTH
         self.ROUND_MAX = ROUND_MAX
         self.TARGET_MAX = TARGET_MAX
         self.RESPAWN_PROB = RESPAWN_PROB
         self.score = 0
-        self.player = self.Player(0, self.width - 1)
-        self.TARGET_LOCATION = set([(3, item) for item in list(range(0, self.width, 2))])
-        temp = list(range(0, self.width, 2))
+        self.player = self.Player(0, self.WIDTH - 1)
+        self.TARGET_LOCATION = set([(3, item) for item in list(range(0, self.WIDTH, 2))])
+        temp = list(range(0, self.WIDTH, 2))
         self.AVAILABLE_LOC = [(1, item) for item in temp]
-        self.AVAILABLE_LOC += [(0, item) for item in list(range(0, self.width))]
+        self.AVAILABLE_LOC += [(0, item) for item in list(range(0, self.WIDTH))]
 
         # Initiate targets
         # If no targets are generated initially, randomly choose a target location to spawn a target
@@ -62,7 +62,7 @@ class Game:
     # remaining_round: int, remaining round of the target
     # =============================================================================
     class Target:
-        def __init__(self, loc, remaining_round):
+        def __init__(self, loc, remaining_round=9):
             self.loc = loc
             self.row = self.loc[0]
             self.col = self.loc[1]
@@ -78,9 +78,9 @@ class Game:
     # col: current col no of the player
     # =============================================================================
     class Player:
-        def __init__(self, init_row, init_col):
-            self.row = init_row
-            self.col = init_col
+        def __init__(self, row, col):
+            self.row = row
+            self.col = col
 
     # =============================================================================
     # Generating the shooting range
@@ -88,21 +88,21 @@ class Game:
     # rtype: list of strings
     # =============================================================================
     def create_board(self):
-        width = self.width
+        WIDTH = self.WIDTH
         rows = ["  ", "3|", "2|_", "1|", "0|_"]
-        for i in range(width):
+        for i in range(WIDTH):
             rows[0] += str(i) + "_"
         rows[0] = rows[0][:-1]
         rows[0] += "|"
-        rows[1] += " " * (width * 2 - 1) + "|"
-        if width % 2 != 0:
-            rows[2] += "   _" * int(((width - 1) / 2)) + "|"
-            rows[3] += " |_|" * int(((width - 1) / 2)) + " |"
+        rows[1] += " " * (WIDTH * 2 - 1) + "|"
+        if WIDTH % 2 != 0:
+            rows[2] += "   _" * int(((WIDTH - 1) / 2)) + "|"
+            rows[3] += " |_|" * int(((WIDTH - 1) / 2)) + " |"
         else:
-            rows[2] += "   _" * int(((width - 1) / 2)) + "  |"
-            rows[3] += " |_|" * int(((width - 1) / 2) + 1)
+            rows[2] += "   _" * int(((WIDTH - 1) / 2)) + "  |"
+            rows[3] += " |_|" * int(((WIDTH - 1) / 2) + 1)
             rows[3] = rows[3][:-1] + "|"
-        rows[4] += "_" * (2 * width - 2) + "| "
+        rows[4] += "_" * (2 * WIDTH - 2) + "| "
         return rows
 
     # =============================================================================

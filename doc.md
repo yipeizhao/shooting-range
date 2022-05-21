@@ -8,16 +8,17 @@
 
 ## Gamev2.py
 
-Game():
+***Game():***
 
 The game module. Consists of functions that can be called to play the game and vary parameters.
 
+<br>
 
 ***Game.__init__(width=5,ROUND_MAX=50,TARGET_MAX=20,RESPAWN_PROB=0.1):***
 
 Initiates the game and assigning parameters to their initial state.
 
-Parameters:
+**Parameters:**
 
 - `WIDTH`, optional: 0<int<10. Constant. Controls the width of the board.  The columns will be range from 0 to n-1. Even width and odd width will create slightly different board. If width is an even natural number, there will be an additional column at the most right but no target will be generated in the most right column.
 - `ROUND_MAX`, optional: 0<int. Constant. Maximum number of rounds. The game will immediately terminate when `ROUND_MAX` is reached by `round_no`.
@@ -27,6 +28,8 @@ Parameters:
 **Returns:**
 
 None
+
+<br>
 
 ***Game.Target:***
 
@@ -45,6 +48,9 @@ Initialises the target object.
 
 None
 
+<br>
+
+
 ***Game.Target.update():***
 
 This function is called every round and reduce the remaining round of the target by 1.
@@ -56,6 +62,9 @@ None
 **Returns:**
 
 None
+
+<br>
+
 
 ***Game.Player:***
 
@@ -74,6 +83,9 @@ Initialises the player object.
 
 None.
 
+<br>
+
+
 ***Game.create_board(width=None):***
 
 Generates the empty shooting range using strings.
@@ -86,7 +98,10 @@ Generates the empty shooting range using strings.
 
 - rows: list of strings. Using print function will print the empty shooting range.
 
-**Game.display(rows=None):**
+<br>
+
+
+***Game.display(rows=None):***
 
 Display the shooting range with targets and players. To accomplish the goal, an empty shooting range is needed.
 
@@ -97,6 +112,9 @@ Display the shooting range with targets and players. To accomplish the goal, an 
 **Returns:**
 
 None
+
+<br>
+
 
 ***Game.movement(command):***
 
@@ -116,6 +134,9 @@ Move the player respect to command being given. Valid commands are: “PASS”, 
 
 None
 
+<br>
+
+
 ***Game.target_update():***
 
 Maintaining all valid targets(`Target.remaining_round>1`) and generate targets in empty location that are available for targets.
@@ -128,6 +149,9 @@ None
 
 None
 
+<br>
+
+
 ***Game.interactive():***
 
 Allows player to play the game while player can manually enter commands in the console.
@@ -139,6 +163,9 @@ None
 **Returns:**
 
 None
+
+<br>
+
 
 ***Game.output():***
 
@@ -154,6 +181,8 @@ None
 - target: list of tuples and ints. Tuple represents the current location of the target and int represents the remaining round of the target.
 - round_no: int. The current round number.
 
+<br>
+
 ***Game.reset():***
 
 Reset the game by calling ***Game.__init__().***
@@ -162,9 +191,11 @@ Reset the game by calling ***Game.__init__().***
 
 None
 
-**Results:**
+**Returns:**
 
 None
+
+<br>
 
 ***Game.result():***
 
@@ -182,6 +213,9 @@ None
 - hit: 0 ≤ int ≤ `Game.TARGET_MAX`. Number of targets been shot.
 - miss: 0≤ int ≤ `Game.TARGET_MAX`. Number of targets missed.
 
+<br>
+
+
 ***string_replacement(s,i,c):***
 
 Replace the character with index i in string s with c.
@@ -195,6 +229,9 @@ Replace the character with index i in string s with c.
 **Returns:**
 
 - new_s:string. The replaced string
+
+<br>
+
 
 # Known issues
 

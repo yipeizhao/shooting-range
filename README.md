@@ -21,7 +21,7 @@ The range is seperated by "|" and "_". As a player you are not allowed to across
 Following situations will reduce your score by 3:
 - Calling a invalid command. For example, you entered "hello" or "pass" as your command. Please ensure that all commands are captalised.
 - Moving across the border. This will invalid the game.
-- Shoot while no target is in front or shoot outside the booth(row 0). this will also invalid the game.
+- Shoot while no target is in front or shoot outside the booth(row 0). This will also invalid the game.
 
 ## Try to achieve highest score possible!
 For more information and description please refer to the documentation.

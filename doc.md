@@ -235,28 +235,35 @@ Replace the character with index i in string s with c.
 
 # Known issues
 
-- display will go wrong if width > 10
-- extend: no underscore for X char
+- Game.display() and Game.create_board() functions will not work properly if width >= 10.
 
-    basic bot:
+# Bots
+Bots are designed to catch output of the game by calling ***Game.output()*** and returns a command to control the movement of the player each turn.
+<br>
 
+## Random bot:
+A random valid command is drawn and used to control the movement.
+<br>
+
+## Basic bot:
+Basic bot break situations into 9 cases and returns command base on the output been given.
+<br>
+Basic bot is designed to play valid games, it shouldn't invalid the game by any mean.
 
 | case | player row  | player col | target | command | priority |
 | --- | --- | --- | --- | --- | --- |
-| 1 | any row | any col | no targets  | PASS | ****** |
-| 2.1 | 0 | 0,2,4 | same col as player and in row 3 only  | NORTH | **** |
-| 2.2 | 0 | 0,2,4 | same col as player and in row -3 only  | SOUTH | **** |
-| 3 | 1 | 0,2,4 | a target is exactly 2 units away | SHOOT | ***** |
-| 4.1 | 1 | 0,2,4 | no target in front | SOUTH | *** |
-| 4.2 | 2 | 0,2,4, | no target in front | NORTH | *** |
-| 5 | 0 | 0,1,2,3 | a target can be found in right | EAST | ** |
-| 6 | 0 | 1,2,3,4 | a target can be found in left | WEST | ** |
-| 7 | 0 | within two targets but closer to the left | left and right | WEST | ** |
-| 8 | 0 | within two targets but closer to the right | left and right | EAST | ** |
-| 9 | 0 | within two targets with equal distance | left and right | random choice of EAST/WEST | * |
+| 1 | Any row | Any col | No target  | PASS | ****** |
+| 2 | 0 | Even col | Same col as player  | NORTH | **** |
+| 3 | 1 | Even col | Same col as player | SHOOT | ***** |
+| 4 | 1 | Even col| No target in front | SOUTH | *** |
+| 5 | 0 | Any col | A target can be found on right | EAST | ** |
+| 6 | 0 | Any col | A target can be found on left | WEST | ** |
+| 7 | 0 | Within two targets but closer to the left | Left and right | WEST | ** |
+| 8 | 0 | Within two targets but closer to the right | Left and right | EAST | ** |
+| 9 | 0 | Within two targets with equal distance | Left and right | Random choice of EAST/WEST | * |
 |  |  |  |  |  |  |
 
-Smart bot:
-
-- Detect the distance between targets and the player to make a decision. If the remaining round < distance +2, give up on the target and move to another one
-- if there is no more target, move out of the booth (and move towards the middle of the shooting range)
+## Smart bot:
+Smart bot is fully depending on the basic bot but it is designed to be a bit smarter with some strategies:
+- Detect the distance between targets and the player to make a decision. If the remaining round < distance +2, the target will be gave up.
+- If there is no more target, move out of the booth to save a round.

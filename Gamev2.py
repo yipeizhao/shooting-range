@@ -18,17 +18,22 @@ class Game:
     # TARGET_LOCATION: list of tuple of ints, all potential location of targets
     # AVAILABLE_LOC: list of floats(ints), stored all potential col of player movement in row 1
     # target: list of target objects
+    # type: int
+    # type: int
+    # type: int
+    # type: float
+    # rtype: None
     # =============================================================================
-    def __init__(self):
+    def __init__(self,width=5,ROUND_MAX=50,TARGET_MAX=20,RESPAWN_PROB=0.1):
         self.invalid = False
         self.terminate = False
         self.round_no = 0
         self.target_no = 0
         self.hit = 0
-        self.width = 5
-        self.ROUND_MAX = 50
-        self.TARGET_MAX = 20
-        self.RESPAWN_PROB = 0.075
+        self.width = width
+        self.ROUND_MAX = ROUND_MAX
+        self.TARGET_MAX = TARGET_MAX
+        self.RESPAWN_PROB = RESPAWN_PROB
         self.score = 0
         self.player = self.Player(0, self.width - 1)
         self.TARGET_LOCATION = set([(3, item) for item in list(range(0, self.width, 2))])

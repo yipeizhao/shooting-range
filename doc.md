@@ -12,6 +12,7 @@ Game():
 
 The game module. Consists of functions that can be called to play the game and vary parameters.
 
+
 ***Game.__init__(width=5,ROUND_MAX=50,TARGET_MAX=20,RESPAWN_PROB=0.1):***
 
 Initiates the game and assigning parameters to their initial state.

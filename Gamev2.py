@@ -18,6 +18,7 @@ class Game:
     # TARGET_LOCATION: list of tuple of ints, all potential location of targets
     # AVAILABLE_LOC: list of floats(ints), stored all potential col of player movement in row 1
     # target: list of target objects
+    
     # type: int
     # type: int
     # type: int

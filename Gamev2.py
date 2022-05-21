@@ -184,7 +184,7 @@ class Game:
         for item in self.target:
             item.update()
         self.target_update()
-        if self.round_no == self.ROUND_MAX:
+        if self.round_no >= self.ROUND_MAX:
             self.terminate = True
 
     # =============================================================================
@@ -205,7 +205,7 @@ class Game:
                 new_targets.append(self.Target(item1, 9))
                 self.target_no += 1
         self.target = new_targets
-        if self.target_no == self.TARGET_MAX and len(new_targets) == 0:
+        if self.target_no >= self.TARGET_MAX and len(new_targets) == 0:
             self.terminate = True
 
     # =============================================================================

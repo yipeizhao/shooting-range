@@ -228,7 +228,7 @@ Replace the character with index i in string s with c.
 
 **Returns:**
 
-- new_s:string. The replaced string
+- new_s:string. The replaced string.
 
 <br>
 
@@ -239,16 +239,29 @@ Replace the character with index i in string s with c.
 
 # Bots
 Bots are designed to catch output of the game by calling ***Game.output()*** and returns a command to control the movement of the player each turn.
+
 <br>
 
-## Random bot:
-A random valid command is drawn and used to control the movement.
+***def random_bot(loc,target,round_no):***
+
+Returns one of the valid command.
+
+**Parameters:**
+- loc: list of ints. The current location of the player.
+- target: list of tuples and ints. Tuple represents the current location of the target and int represents the remaining round of the target.
+- round_no: int. The current round number.
+
+**Returns:**
+
+- command: string.
+
 <br>
 
-## Basic bot:
-Basic bot break situations into 9 cases and returns command base on the output been given.
+***def basic_bot(loc,target,round_no):***
+
+Returns a rational command base on the current status of the game. All situations are broken down into 9 cases and returns command respectively.
+
 <br>
-Basic bot is designed to play valid games, it shouldn't invalid the game by any mean.
 
 | case | player row  | player col | target | command | priority |
 | --- | --- | --- | --- | --- | --- |
@@ -263,7 +276,28 @@ Basic bot is designed to play valid games, it shouldn't invalid the game by any 
 | 9 | 0 | Within two targets with equal distance | Left and right | Random choice of EAST/WEST | * |
 |  |  |  |  |  |  |
 
-## Smart bot:
+**Parameters:**
+- loc: list of ints. The current location of the player.
+- target: list of tuples and ints. Tuple represents the current location of the target and int represents the remaining round of the target.
+- round_no: int. The current round number.
+
+**Returns:**
+
+- command: string.
+  
+<br>
+
+***def smart_bot(loc,target,round_no):***
+
 Smart bot is fully depending on the basic bot but it is designed to be a bit smarter with some strategies:
-- Detect the distance between targets and the player to make a decision. If the remaining round < distance +2, the target will be gave up.
+- Detect the distance between targets and the player to make a decision. If the remaining round is smaller than the distance plus two("NORTH" and "SHOOT" command), the target will be gave up since it is inreachable.
 - If there is no more target, move out of the booth to save a round.
+
+**Parameters:**
+- loc: list of ints. The current location of the player.
+- target: list of tuples and ints. Tuple represents the current location of the target and int represents the remaining round of the target.
+- round_no: int. The current round number.
+
+**Returns:**
+
+- command: string.

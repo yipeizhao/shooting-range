@@ -8,6 +8,7 @@ from Gamev2 import Game
 game  = Game()
 game.interactive()
 ```
+![game_usage](game_usage.png)
 Valid commands are:
 - SHOOT
 - PASS
@@ -39,9 +40,11 @@ There are three bots:
 from Gamev2 import Game
 from bots import *
 game = Game()
+game.display()
 while not game.terminate:
 	output = game.output()
 	command = basic_bot(*output)
+	print(command)
 	game.movement(command)
 	game.display()
 ``` 

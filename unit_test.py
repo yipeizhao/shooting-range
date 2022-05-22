@@ -3,7 +3,7 @@ from bots import basic_bot, smart_bot
 import unittest
 import random
 
-game = Game()
+game = Game(WIDTH=5)
 
 
 class Test(unittest.TestCase):
@@ -22,10 +22,16 @@ class Test(unittest.TestCase):
             self.assertEqual(r_remaining_round,target.remaining_round)
         
     # Target expiration
-    def test_target_expiration(self):
+    def test_target(self):
         game.reset()
         r_row = random.randint(0,game.WIDTH)
         r_col = 3
+        game.reset()
+        game.target = [game.Target((r_row,r_col),3)]
+        game.movement("PASS")
+        self.assertIn(((r_row,r_col),2),game.output()[1])
+        
+        game.reset()
         game.target = [game.Target((r_row,r_col),2)]
         game.movement("PASS")
         output = game.output()
@@ -33,8 +39,7 @@ class Test(unittest.TestCase):
         game.movement("PASS")
         output = game.output()
         self.assertNotIn(((r_row,r_col),0), output[1])
-        
-        
+
         
     # Test invalid command
     def test_invalid_command(self):
@@ -122,10 +127,22 @@ class Test(unittest.TestCase):
     # Bot testing
     def test_bots(self):
         for i in range(10):
+            # Basic bot test
+            game.reset()
+            while not game.terminate:
+                output = game.output()
+                command = basic_bot(*output)
+                game.movement(command)
+                self.assertFalse(game.invalid)
+            
+            # Smart bot test
             game.reset()
             while not game.terminate:
                 output = game.output()
                 command = smart_bot(*output)
                 game.movement(command)
+                self.assertFalse(game.invalid)
+        
+        
 if __name__ == "__main__":
     unittest.main()

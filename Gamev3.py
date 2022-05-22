@@ -10,7 +10,7 @@ class Game:
     # round_no: 0<=int, starting the game with round number = 0
     # target_no: 0<=int, number of targets(ID given to a target)
     # hit: 0<=int, number of targets hit
-    # width: 0<int<10, width of the shooting range, should be less than 10
+    # WIDTH: 0<int<10, width of the shooting range, should be less than 10
     # ROUND_MAX: 0<int, game will stop if reaches max rounds
     # TARGET_MAX: 0<int, game will stop if reaches max targets
     # RESPAWN_PROB: 0<= float <= 1; probability of targets respawn
@@ -20,26 +20,26 @@ class Game:
     # AVAILABLE_LOC: list of floats(ints), stored all valid player's location
     # target: list of target objects
     # =============================================================================
-    def __init__(self):
+    def __init__(self,WIDTH=5,ROUND_MAX=50,TARGET_MAX=20,RESPAWN_PROB=0.1,extend = True):
         self.invalid = False
         self.terminate = False
-        self.extend = not False
+        self.extend = extend
         self.round_no = 0
         self.target_no = 0
         self.hit = 0
-        self.width = 9
-        self.ROUND_MAX = 50
-        self.TARGET_MAX = 20
-        self.RESPAWN_PROB = 0.2
+        self.WIDTH = 9
+        self.ROUND_MAX = ROUND_MAX
+        self.TARGET_MAX = TARGET_MAX
+        self.RESPAWN_PROB = RESPAWN_PROB
         self.score = 0
-        self.player = self.Player(0, self.width - 1)
-        self.TARGET_LOCATION = set([(3, item) for item in list(range(0, self.width, 2))])
-        temp = list(range(0, self.width, 2))
+        self.player = self.Player(0, self.WIDTH - 1)
+        self.TARGET_LOCATION = set([(3, item) for item in list(range(0, self.WIDTH, 2))])
+        temp = list(range(0, self.WIDTH, 2))
         self.AVAILABLE_LOC = [(1, item) for item in temp]
-        self.AVAILABLE_LOC += [(0, item) for item in list(range(0, self.width))]
+        self.AVAILABLE_LOC += [(0, item) for item in list(range(0, self.WIDTH))]
         if self.extend:
             self.TARGET_LOCATION = self.TARGET_LOCATION.union(
-                set([(-3, item) for item in list(range(0, self.width, 2))]))
+                set([(-3, item) for item in list(range(0, self.WIDTH, 2))]))
             self.AVAILABLE_LOC += [(-1, item) for item in temp]
 
         # Initiate targets
@@ -79,9 +79,9 @@ class Game:
     # col: current col no of the player
     # =============================================================================
     class Player:
-        def __init__(self, init_row, init_col):
-            self.row = init_row
-            self.col = init_col
+        def __init__(self, row, col):
+            self.row = row
+            self.col = col
 
     # =============================================================================
     # Generating the shooting range
@@ -89,38 +89,38 @@ class Game:
     # rtype: list of strings
     # =============================================================================
     def create_board(self):
-        width = self.width
+        WIDTH = self.WIDTH
         rows = ["   ", " 3|", " 2|_", " 1|", " 0|_"]
-        for i in range(width):
+        for i in range(WIDTH):
             rows[0] += str(i) + "_"
         rows[0] = rows[0][:-1]
         rows[0] += "|"
-        rows[1] += " " * (width * 2 - 1) + "|"
-        if width % 2 != 0:
-            rows[2] += "   _" * int(((width - 1) / 2)) + "|"
-            rows[3] += " |_|" * int(((width - 1) / 2)) + " |"
+        rows[1] += " " * (WIDTH * 2 - 1) + "|"
+        if WIDTH % 2 != 0:
+            rows[2] += "   _" * int(((WIDTH - 1) / 2)) + "|"
+            rows[3] += " |_|" * int(((WIDTH - 1) / 2)) + " |"
         else:
-            rows[2] += "   _" * int(((width - 1) / 2)) + "  |"
-            rows[3] += " |_|" * int(((width - 1) / 2) + 1)
+            rows[2] += "   _" * int(((WIDTH - 1) / 2)) + "  |"
+            rows[3] += " |_|" * int(((WIDTH - 1) / 2) + 1)
             rows[3] = rows[3][:-1] + "|"
-        rows[4] += "_" * (2 * width - 2) + "| "
+        rows[4] += "_" * (2 * WIDTH - 2) + "| "
         if self.extend:
-            if self.width % 2 != 0:
+            if self.WIDTH % 2 != 0:
                 rows.append("-1|_")
                 rows.append("-2|")
                 rows.append("-3|")
-                rows[4] = " 0| " + " _  " * int((width - 1) / 2) + "|"
-                rows[5] += "| |_" * int((width / 2)) + "|"
-                rows[6] += " " * (width * 2 - 1) + "|"
-                rows[7] += "_" * (width * 2 - 1) + "|"
+                rows[4] = " 0| " + " _  " * int((WIDTH - 1) / 2) + "|"
+                rows[5] += "| |_" * int((WIDTH / 2)) + "|"
+                rows[6] += " " * (WIDTH * 2 - 1) + "|"
+                rows[7] += "_" * (WIDTH * 2 - 1) + "|"
             else:
                 rows.append("-1|_")
                 rows.append("-2|")
                 rows.append("-3|")
-                rows[4] = " 0| " + " _  " * int(width / 2 - 1) + "  |"
-                rows[5] += "| |_" * int((width / 2) - 1) + "| |"
-                rows[6] += " " * (width * 2 - 1) + "|"
-                rows[7] += "_" * (width * 2 - 1) + "|"
+                rows[4] = " 0| " + " _  " * int(WIDTH / 2 - 1) + "  |"
+                rows[5] += "| |_" * int((WIDTH / 2) - 1) + "| |"
+                rows[6] += " " * (WIDTH * 2 - 1) + "|"
+                rows[7] += "_" * (WIDTH * 2 - 1) + "|"
         return rows
 
     # =============================================================================

@@ -9,6 +9,7 @@ game  = Game()
 game.interactive()
 ```
 ![game_usage](game_usage.png)
+<br>
 Valid commands are:
 - SHOOT
 - PASS
@@ -49,3 +50,4 @@ while not game.terminate:
 	game.display()
 ``` 
 ![bot_usage](bot_usage.png)
+<br>

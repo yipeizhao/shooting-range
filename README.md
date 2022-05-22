@@ -27,12 +27,12 @@ Following situations will reduce your score by 3:
 For more information and description please refer to the documentation.
 
 # Bots
-Bots are designed to catch the outputs of the game and returns a command to play the game automatically.
+Bots are designed to catch the current state of the game(player's location, targets' location and round number) and return a command to play the game automatically.
 <br>
 There are three bots:
 - Random bot. Returns a random valid command. This bot will most likely invalid the game.
-- Basic bot. Returns a rational command. This bot will achieve a good score and play a valid game.
-- Smart bot. Returns a smarter command. This bot will achieve a better score than basic bot and play a valid game. Strategies used by smart bot can be found in the documentation.
+- Basic bot. Returns a rational valid command. This bot will achieve a good score and play a valid game.
+- Smart bot. Returns a smarter valid command. This bot will achieve a better score than basic bot and play a valid game. Strategies used by smart bot can be found in the documentation.
 
 ## Usage
 ```python

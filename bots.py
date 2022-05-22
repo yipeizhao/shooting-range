@@ -34,12 +34,6 @@ def basic_bot(loc, target, round_no):
                     return "SOUTH"
                 
 
-    # if player_col in target_col:
-    #     if player_row == 0:
-    #         return "NORTH"
-    #     if player_row == 1:
-    #         return "SHOOT"
-
     # Case 4
     if player_col not in target_col:
         # Case 4.1
@@ -50,7 +44,7 @@ def basic_bot(loc, target, round_no):
             return "NORTH"
         
     # Determine the position of player respect to targets
-    # Append the players' col to the target col's list and sort
+    # Append the players' col to the target col's list and sort the list
     # Case 5 example:
     #   2 4
     # 0

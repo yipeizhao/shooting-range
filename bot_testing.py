@@ -2,11 +2,12 @@ from Gamev2 import Game
 from bots import *
 import pandas as pd
 
+total_game = 10
 game = Game()
 results = [[], [], []]
 
-# Simulation game 10 times
-for i in range(10):
+# Simulation game n times
+for i in range(total_game):
     while not game.terminate:
         output = game.output()
         command = random_bot(*output)
@@ -48,19 +49,20 @@ for index, val in enumerate(results[2]):
 
 # Aggregating the results
 res = pd.DataFrame(columns={"Bot": "",
+                            "Total games":"",
                             "Invalid games": "",
                             "Score": "",
                             "Targets_spawned": "",
                             "Hit": "",
                             "Miss": ""})
 
-res.loc[0] = ["Random", list(random.Invalid).count(True),
+res.loc[0] = ["Random",total_game, list(random.Invalid).count(True),
               sum(random.Score), sum(random.Targets_spawned),
               sum(random.Hit), sum(random.Miss)]
-res.loc[1] = ["Basic", list(basic.Invalid).count(True),
+res.loc[1] = ["Basic",total_game, list(basic.Invalid).count(True),
               sum(basic.Score), sum(basic.Targets_spawned),
               sum(basic.Hit), sum(basic.Miss)]
-res.loc[2] = ["Smart", list(smart.Invalid).count(True),
+res.loc[2] = ["Smart",total_game, list(smart.Invalid).count(True),
               sum(smart.Score), sum(smart.Targets_spawned),
               sum(smart.Hit), sum(smart.Miss)]
 print(res)

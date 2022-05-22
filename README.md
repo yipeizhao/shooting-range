@@ -48,3 +48,4 @@ while not game.terminate:
 	game.movement(command)
 	game.display()
 ``` 
+![bot_usage](bot_usage.png)

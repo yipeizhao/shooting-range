@@ -290,7 +290,7 @@ Returns a rational command base on the current status of the game. All situation
 ***def smart_bot(loc,target,round_no):***
 
 Smart bot is fully depending on the basic bot but it is designed to be a bit smarter with some strategies:
-- Detect the distance between targets and the player to make a decision. If the remaining round is smaller than the distance plus two("NORTH" and "SHOOT" command), the target will be gave up since it is inreachable.
+- Detect the distance between targets and the player to make a decision. If the remaining round is smaller than the distance plus two("NORTH" and "SHOOT" command), the target will be gave up since it is unreachable.
 - If there is no more target, move out of the booth to save a round.
 
 **Parameters:**

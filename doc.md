@@ -294,6 +294,7 @@ Smart bot is fully depending on the basic bot but it is designed to be a bit sma
 - If there is no more target, move out of the booth to save a round.
 
 **Parameters:**
+
 - loc: list of ints. The current location of the player.
 - target: list of tuples and ints. Tuple represents the current location of the target and int represents the remaining round of the target.
 - round_no: int. The current round number.

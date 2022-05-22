@@ -1,5 +1,5 @@
 # Shooting range game
-This game is tended to simulate a shooting range, while a player can move within the range and shoot targets that will expire in certain rounds.
+This game is designed to simulate a shooting range, while a player can move within the range and shoot targets that will expire in certain rounds.
 
 ## Usage
 To play the game and insert your command:
@@ -25,3 +25,23 @@ Following situations will reduce your score by 3:
 
 ## Try to achieve highest score possible!
 For more information and description please refer to the documentation.
+
+# Bots
+Bots are designed to catch the outputs of the game and returns a command to play the game automatically.
+<br>
+There are three bots:
+- Random bot. Returns a random valid command. This bot will most likely invalid the game.
+- Basic bot. Returns a rational command. This bot will achieve a good score and play a valid game.
+- Smart bot. Returns a smarter command. This bot will achieve a better score than basic bot and play a valid game. Strategies used by smart bot can be found in the documentation.
+
+## Usage
+```python
+from Gamev2 import Game
+from bots import *
+game = Game()
+while not game.terminate:
+	output = game.output()
+	command = basic_bot(*output)
+	game.movement(command)
+	game.display()
+``` 

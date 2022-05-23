@@ -3,13 +3,15 @@ from bots import basic_bot, smart_bot
 import unittest
 import random
 
-game = Game(WIDTH=5)
+game = Game(width=6)
 
 
 class Test(unittest.TestCase):
     # Test target
+    # Create a random target at random location wtih random remaining round
+    # All parameter should match
     def test_target_creation(self):
-        for i in range(50):
+        for i in range(10):
             game.reset()
             r_row = random.randint(0,game.WIDTH)
             r_col = 3
@@ -20,8 +22,11 @@ class Test(unittest.TestCase):
             self.assertEqual(r_row,target.row)
             self.assertEqual(r_col,target.col)
             self.assertEqual(r_remaining_round,target.remaining_round)
-        
+            
     # Target expiration
+    # Targets will always remain in the current location and remaining round should
+    # always dropped by 1 whenever a command is input
+    # Target should expire if it's remaining round is 0
     def test_target(self):
         game.reset()
         r_row = random.randint(0,game.WIDTH)
@@ -53,53 +58,126 @@ class Test(unittest.TestCase):
         self.assertEqual(-6, game.score)
         
         
-    # Test movements
-    def test_movements(self):
+    # Test borders
+    def test_borders(self):
+        # Test east border
         game.reset()
         game.movement("EAST")
         self.assertTrue(game.invalid)
         self.assertEqual(-3, game.score)
-        cur_loc = (game.player.row, game.player.col)
-        game.movement("WEST")
-        game.movement("EAST")
-        self.assertEqual(cur_loc, (game.player.row, game.player.col))
-        self.assertEqual(-3 ,game.score)
-        if game.WIDTH % 2 == 0:
+        
+        if game.WIDTH % 2 != 0:
+            game.reset()
+            game.movement("NORTH")
+            self.assertFalse(game.invalid)
+            game.movement("EAST")
+            self.assertTrue(game.invalid)
+        else:
+            game.reset()
             game.movement("WEST")
             game.movement("NORTH")
-            game.movement("SOUTH")
-            self.assertEqual(-3 ,game.score)
-            self.assertEqual(cur_loc, (game.player.row, game.player.col))
+            self.assertFalse(game.invalid)
+            game.movement("EAST")
+            self.assertTrue(game.invalid)
+            
+        # Test west border
+        game.reset()
+        for i in range(game.WIDTH-1):
+            game.movement("WEST")
+        self.assertFalse(game.invalid)
+        game.movement("WEST")
+        self.assertTrue(game.invalid)
+        
+        game.reset()
+        for i in range(game.WIDTH-1):
+            game.movement("WEST")
+        self.assertFalse(game.invalid)
+        game.movement("NORTH")
+        game.movement("WEST")
+        self.assertTrue(game.invalid)
+        
+        # Test north border
+        game.reset()
+        if game.WIDTH % 2 != 0:
+            game.movement("NORTH")
+            self.assertFalse(game.invalid)
+            game.movement("NORTH")
+            self.assertTrue(game.invalid)
+            
+            game.reset()
+            game.movement("WEST")
+            game.movement("NORTH")
+            self.assertTrue(game.invalid)
         else:
+            game.reset()
+            game.movement("WEST")
+            game.movement("NORTH")
+            self.assertFalse(game.invalid)
+            
+            game.reset()
+            game.movement("NORTH")
+            self.assertTrue(game.invalid)
+            
+        # Test south border
+        game.reset()
+        game.movement("SOUTH")
+        self.assertTrue(game.invalid)
+        
+    # Test movements
+    def test_movements(self):
+        game.reset()
+        cur_loc = (game.player.row, game.player.col)
+        # Should move back to original location
+        game.movement("WEST")
+        game.movement("EAST")
+        self.assertEqual(0 ,game.score)
+        self.assertEqual(cur_loc, (game.player.row, game.player.col))
+        if game.WIDTH % 2 != 0:
+            game.reset()
             game.movement("NORTH")
             game.movement("SOUTH")
-            self.assertEqual(-3 ,game.score)
+            self.assertEqual(0 ,game.score)
+            self.assertEqual(cur_loc, (game.player.row, game.player.col))
+        else:
+            game.reset()
+            game.movement("WEST")
+            cur_loc = (game.player.row, game.player.col)
+            game.movement("NORTH")
+            game.movement("SOUTH")
+            self.assertEqual(0 ,game.score)
             self.assertEqual(cur_loc, (game.player.row, game.player.col))
     
     # Test shooting command
     def test_shoot(self):
         game.reset()
-        if game.WIDTH%2 == 0:
-            game.target = [game.Target((3,game.WIDTH-2),10)]
-            game.movement("WEST")
+        if game.WIDTH%2 != 0:
+            game.target = [game.Target((3,game.WIDTH-1),10)]
+            # Not in booth, should miss
             game.movement("SHOOT")
             self.assertEqual(-3, game.score)
+            # In booth, should hit
             game.movement("NORTH")
             game.movement("SHOOT")
             self.assertEqual(-2, game.score)
             
             game.reset()
-            game.target = [game.Target((3,game.WIDTH-2),1)]
+            game.target = [game.Target((3,game.WIDTH-1),1)]
+            # Not in booth, should miss
             game.movement("SHOOT")
             self.assertEqual(-3, game.score)
+            # Target expired, should miss
             game.movement("NORTH")
             game.movement("SHOOT")
             self.assertEqual(-6, game.score)
             
         else:
-            game.target = [game.Target((3,game.WIDTH-1),10)]
+            game.reset()
+            game.target = [game.Target((3,game.WIDTH-2),10)]
+            # Not in booth, should miss
             game.movement("SHOOT")
             self.assertEqual(-3, game.score)
+            # In booth, should hit
+            game.movement("WEST")
             game.movement("NORTH")
             game.movement("SHOOT")
             self.assertEqual(-2, game.score)
@@ -107,6 +185,7 @@ class Test(unittest.TestCase):
         
     # Test game terminates 
     def test_terminate(self):
+        # Reaches round max
         game.reset()
         game.round_no = game.ROUND_MAX
         game.movement("PASS")
@@ -116,9 +195,13 @@ class Test(unittest.TestCase):
         for i in range(game.ROUND_MAX):
             game.movement("PASS")
         self.assertTrue(game.terminate)
-           
+        
+        # Reaches target max and no target left
         game.reset()
         game.target_no = game.TARGET_MAX
+        game.movement("PASS")
+        # A target left, should not terminate
+        self.assertFalse(game.terminate)
         for i in range(11):
             game.movement("PASS")
         self.assertTrue(game.terminate)

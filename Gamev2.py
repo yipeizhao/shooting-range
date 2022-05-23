@@ -26,16 +26,16 @@ class Game:
     # type: float
     # rtype: None
     # =============================================================================
-    def __init__(self, WIDTH=5, ROUND_MAX=50, TARGET_MAX=20, RESPAWN_PROB=0.1):
+    def __init__(self, width=5, round_max=50, target_max=20, respawn_prob=0.1):
         self.invalid = False
         self.terminate = False
         self.round_no = 0
         self.target_no = 0
         self.hit = 0
-        self.WIDTH = WIDTH
-        self.ROUND_MAX = ROUND_MAX
-        self.TARGET_MAX = TARGET_MAX
-        self.RESPAWN_PROB = RESPAWN_PROB
+        self.WIDTH = width
+        self.ROUND_MAX = round_max
+        self.TARGET_MAX = target_max
+        self.RESPAWN_PROB = respawn_prob
         self.score = 0
         self.player = self.Player(0, self.WIDTH - 1)
         self.TARGET_LOCATION = set([(3, item) for item in list(range(0, self.WIDTH, 2))])
@@ -137,6 +137,69 @@ class Game:
     # type: str
     # rtype: None    
     # =============================================================================
+    # def movement(self, command):
+    #     # Whenever a move is performed, add 1 to round no
+    #     self.round_no += 1
+    #     # A new variable to store the new location of the player, it is used to check the validity of the new player location
+    #     new_loc = [self.player.row, self.player.col]
+    #     # If SHOOT is being called, we have to determine the validity of the shot
+    #     # has to satisfy: there is a target in the same col and the player has to be 2 units away from a target
+    #     # If the shot is valid, remove the target and add one to the score
+    #     # Else, warn the player, minus the score by 3 and invalid the game
+    #     if command == "SHOOT":
+    #         flag = False
+    #         # Detect whether a player is in row 1 and there is a target in front.
+    #         for item in self.target:
+    #             if (item.col == self.player.col) and (
+    #                     abs(item.row-self.player.row)==2):
+    #                 self.target.remove(item)
+    #                 self.score += 1
+    #                 self.hit += 1
+    #                 flag = True
+    #         if not flag:
+    #             # print("You made an invalid shot.")
+    #             self.score -= 3
+    #             self.invalid = True
+    #     elif command == "PASS":
+    #         pass            
+    #     elif command == "SOUTH":
+    #         new_loc[0] -= 1
+    #     elif command == "NORTH":
+    #         new_loc[0] += 1
+    #     elif command == "WEST":
+    #         new_loc[1] -= 1
+
+    #     elif command == "EAST":
+    #         new_loc[1] += 1
+    #     else:
+    #         # print("You entered an invalid command.")
+    #         self.score -= 3
+    #     # Check whether the new location is valid
+    #     # If an invalid loc is entered:
+    #     # warn the player
+    #     # score - 3
+    #     # invalid the game
+    #     # Else, assign the current player loc to the new loc
+    #     if (new_loc[0], new_loc[1]) not in self.AVAILABLE_LOC:
+    #         # print("You made an invalid move.")
+    #         self.score -= 3
+    #         self.invalid = True
+    #     else:
+    #         self.player.row = new_loc[0]
+    #         self.player.col = new_loc[1]
+    #     # After player's move, targets are updated
+    #     for item in self.target:
+    #         item.update()
+    #     self.target_update()
+    #     # Determines the termination of the game
+    #     if self.round_no >= self.ROUND_MAX:
+    #         self.terminate = True
+
+    # =============================================================================
+    # Taking the command and move the player respectively
+    # type: str
+    # rtype: None    
+    # =============================================================================
     def movement(self, command):
         # Whenever a move is performed, add 1 to round no
         self.round_no += 1
@@ -180,7 +243,15 @@ class Game:
         # score - 3
         # invalid the game
         # Else, assign the current player loc to the new loc
-        if (new_loc[0], new_loc[1]) not in self.AVAILABLE_LOC:
+        
+        # Border between booths
+        # West and east border
+        # South border
+        # North border
+        if (new_loc[0] == 1 and new_loc[1]%2!=0) or\
+        (new_loc[1]<0) or (new_loc[1]>self.WIDTH-1) or\
+        (new_loc[0]<0) or\
+        (new_loc[0]>1):
             # print("You made an invalid move.")
             self.score -= 3
             self.invalid = True
@@ -194,7 +265,7 @@ class Game:
         # Determines the termination of the game
         if self.round_no >= self.ROUND_MAX:
             self.terminate = True
-
+                
     # =============================================================================
     # target_update is called after every move
     # Targets will be appended to the new target list if its remaining round isn't 0

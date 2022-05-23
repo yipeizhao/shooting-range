@@ -17,7 +17,6 @@ class Game:
     # score: 0=<int, score +1 if a target is hit; -3 if an invalid move is performed(invalid shot,command,move)
     # player: player object
     # TARGET_LOCATION: list of tuple of ints, all potential location of targets
-    # AVAILABLE_LOC: list of tuples, stored all potential available player lcoation
     # target: list of target objects
     
     # type: int
@@ -39,9 +38,6 @@ class Game:
         self.score = 0
         self.player = self.Player(0, self.WIDTH - 1)
         self.TARGET_LOCATION = set([(3, item) for item in list(range(0, self.WIDTH, 2))])
-        temp = list(range(0, self.WIDTH, 2))
-        self.AVAILABLE_LOC = [(1, item) for item in temp]
-        self.AVAILABLE_LOC += [(0, item) for item in list(range(0, self.WIDTH))]
 
         # Initiate targets
         # If no targets are generated initially, randomly choose a target location to spawn a target
@@ -132,68 +128,6 @@ class Game:
         print("Score: " + str(self.score))
         print("")
 
-    # =============================================================================
-    # Taking the command and move the player respectively
-    # type: str
-    # rtype: None    
-    # =============================================================================
-    # def movement(self, command):
-    #     # Whenever a move is performed, add 1 to round no
-    #     self.round_no += 1
-    #     # A new variable to store the new location of the player, it is used to check the validity of the new player location
-    #     new_loc = [self.player.row, self.player.col]
-    #     # If SHOOT is being called, we have to determine the validity of the shot
-    #     # has to satisfy: there is a target in the same col and the player has to be 2 units away from a target
-    #     # If the shot is valid, remove the target and add one to the score
-    #     # Else, warn the player, minus the score by 3 and invalid the game
-    #     if command == "SHOOT":
-    #         flag = False
-    #         # Detect whether a player is in row 1 and there is a target in front.
-    #         for item in self.target:
-    #             if (item.col == self.player.col) and (
-    #                     abs(item.row-self.player.row)==2):
-    #                 self.target.remove(item)
-    #                 self.score += 1
-    #                 self.hit += 1
-    #                 flag = True
-    #         if not flag:
-    #             # print("You made an invalid shot.")
-    #             self.score -= 3
-    #             self.invalid = True
-    #     elif command == "PASS":
-    #         pass            
-    #     elif command == "SOUTH":
-    #         new_loc[0] -= 1
-    #     elif command == "NORTH":
-    #         new_loc[0] += 1
-    #     elif command == "WEST":
-    #         new_loc[1] -= 1
-
-    #     elif command == "EAST":
-    #         new_loc[1] += 1
-    #     else:
-    #         # print("You entered an invalid command.")
-    #         self.score -= 3
-    #     # Check whether the new location is valid
-    #     # If an invalid loc is entered:
-    #     # warn the player
-    #     # score - 3
-    #     # invalid the game
-    #     # Else, assign the current player loc to the new loc
-    #     if (new_loc[0], new_loc[1]) not in self.AVAILABLE_LOC:
-    #         # print("You made an invalid move.")
-    #         self.score -= 3
-    #         self.invalid = True
-    #     else:
-    #         self.player.row = new_loc[0]
-    #         self.player.col = new_loc[1]
-    #     # After player's move, targets are updated
-    #     for item in self.target:
-    #         item.update()
-    #     self.target_update()
-    #     # Determines the termination of the game
-    #     if self.round_no >= self.ROUND_MAX:
-    #         self.terminate = True
 
     # =============================================================================
     # Taking the command and move the player respectively

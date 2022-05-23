@@ -21,7 +21,7 @@ Valid commands are:
 The range is seperated by "|" and "_". As a player you are not allowed to across the border as this will invalid the game and reduce your score. To earn score, you need to move into a booth(row 1) and call the "SHOOT" command to fire. The targets are represents in integers located in row 3. The integer reprsents the number of remaining rounds. They will disappear if the remaining rounds are reduced to 0.
 <br>
 Following situations will reduce your score by 3:
-- Calling a invalid command. For example, you entered "hello" or "pass" as your command. Please ensure that all commands are captalised.
+- Calling an invalid command. For example, you entered "hello" or "pass" as your command. Please ensure that all commands are captalised.
 - Moving across the border. This will invalid the game.
 - Shoot while no target is in front or shoot outside the booth(row 0). This will also invalid the game.
 

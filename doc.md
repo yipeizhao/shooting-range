@@ -14,16 +14,16 @@ The game module. Consists of functions that can be called to play the game and v
 
 <br>
 
-***Game.__init__(width=5,ROUND_MAX=50,TARGET_MAX=20,RESPAWN_PROB=0.1):***
+***Game.__init__(width=5,round_max=50,target_max=20,respawn_prob=0.1):***
 
 Initiates the game and assigning parameters to their initial state.
 
 **Parameters:**
 
-- `WIDTH`, optional: 0<int<10. Constant. Controls the width of the board.  The columns will be range from 0 to n-1. Even width and odd width will create slightly different board. If width is an even natural number, there will be an additional column at the most right but no target will be generated in the most right column.
-- `ROUND_MAX`, optional: 0<int. Constant. Maximum number of rounds. The game will immediately terminate when `ROUND_MAX` is reached by `round_no`.
-- `TARGET_MAX`, optional: 0<int. Constant. Maximum number of targets. Targets will no longer be generated when `TARGET_MAX` is reached. The game will be terminated when `TARGET_MAX` is reached and no targets are left.
-- `RESPAWN_PROB`, optional: 0<float. Constant. A target will be generated with this probability if the current location doesn’t have a target already.
+- `width`, optional: 0<int<10. Constant. Controls the width of the board.  The columns will be range from 0 to n-1. Even width and odd width will create slightly different board. If width is an even natural number, there will be an additional column at the most right but no target will be generated in the most right column. Please see known issue for width larger than 10.
+- `round_max`, optional: 0<int. Constant. Maximum number of rounds. The game will immediately terminate when `round_max` is reached by `round_no`.
+- `target_max`, optional: 0<int. Constant. Maximum number of targets. Targets will no longer be generated when `target_max` is reached. The game will be terminated when `target_max` is reached and no targets are left.
+- `respawn_prob`, optional: 0<float. Constant. A target will be generated with this probability if the current location doesn’t have a target already.
 
 **Returns:**
 

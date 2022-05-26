@@ -1,4 +1,3 @@
-
 import random
 
 
@@ -18,7 +17,7 @@ class Game:
     # player: player object
     # TARGET_LOCATION: list of tuple of ints, all potential location of targets
     # target: list of target objects
-    
+
     # type: int
     # type: int
     # type: int
@@ -44,7 +43,7 @@ class Game:
         # Ensuring that there is at least one target at the start of the game
         self.target = []
         for i in range(len(self.TARGET_LOCATION)):
-            if random.random() < self.RESPAWN_PROB and self.target_no<self.TARGET_MAX:
+            if random.random() < self.RESPAWN_PROB and self.target_no < self.TARGET_MAX:
                 self.target.append(self.Target(list(self.TARGET_LOCATION)[i], 9))
                 self.target_no += 1
         if len(self.target) == 0:
@@ -128,12 +127,12 @@ class Game:
         print("Score: " + str(self.score))
         print("")
 
-
     # =============================================================================
     # Taking the command and move the player respectively
     # type: str
     # rtype: None    
     # =============================================================================
+
     def movement(self, command):
         # Whenever a move is performed, add 1 to round no
         self.round_no += 1
@@ -148,7 +147,7 @@ class Game:
             # Detect whether a player is in row 1 and there is a target in front.
             for item in self.target:
                 if (item.col == self.player.col) and (
-                        abs(item.row-self.player.row)==2):
+                        abs(item.row - self.player.row) == 2):
                     self.target.remove(item)
                     self.score += 1
                     self.hit += 1
@@ -158,7 +157,7 @@ class Game:
                 self.score -= 3
                 self.invalid = True
         elif command == "PASS":
-            pass            
+            pass
         elif command == "SOUTH":
             new_loc[0] -= 1
         elif command == "NORTH":
@@ -177,15 +176,15 @@ class Game:
         # score - 3
         # invalid the game
         # Else, assign the current player loc to the new loc
-        
+
         # Border between booths
         # West and east border
         # South border
         # North border
-        if (new_loc[0] == 1 and new_loc[1]%2!=0) or\
-        (new_loc[1]<0) or (new_loc[1]>self.WIDTH-1) or\
-        (new_loc[0]<0) or\
-        (new_loc[0]>1):
+        if (new_loc[0] == 1 and new_loc[1] % 2 != 0) or \
+                (new_loc[1] < 0) or (new_loc[1] > self.WIDTH - 1) or \
+                (new_loc[0] < 0) or \
+                (new_loc[0] > 1):
             # print("You made an invalid move.")
             self.score -= 3
             self.invalid = True
@@ -199,7 +198,7 @@ class Game:
         # Determines the termination of the game
         if self.round_no >= self.ROUND_MAX:
             self.terminate = True
-                
+
     # =============================================================================
     # target_update is called after every move
     # Targets will be appended to the new target list if its remaining round isn't 0
@@ -213,7 +212,7 @@ class Game:
         for item in self.target:
             if item.remaining_round > 0:
                 new_targets.append(item)
-            
+
         for item1 in (self.TARGET_LOCATION - set([item.loc for item in self.target])):
             if random.random() < self.RESPAWN_PROB and self.target_no < self.TARGET_MAX:
                 new_targets.append(self.Target(item1, 9))
@@ -264,13 +263,14 @@ class Game:
         # Ensuring that there is at least one target at the start of the game
         self.target = []
         for i in range(len(self.TARGET_LOCATION)):
-            if random.random() < self.RESPAWN_PROB and self.target_no<self.TARGET_MAX:
+            if random.random() < self.RESPAWN_PROB and self.target_no < self.TARGET_MAX:
                 self.target.append(self.Target(list(self.TARGET_LOCATION)[i], 9))
                 self.target_no += 1
         if len(self.target) == 0:
             init_target = random.choice(list(self.TARGET_LOCATION))
             self.target = [(self.Target(init_target, 9))]
             self.target_no += 1
+
     # =============================================================================
     # Return the final result of the game
     # type: None
@@ -300,5 +300,5 @@ def string_replacement(s, i, c):
     new_s = "".join(new_s)
     return new_s
 
-#game = Game()
-#game.interactive()
+# game = Game()
+# game.interactive()

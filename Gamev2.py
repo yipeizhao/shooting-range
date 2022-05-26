@@ -7,14 +7,14 @@ class Game:
     # Initialises the game
     # invalid: bool, invalids game if an invalid move has been performed
     # terminate: bool, the game will terminate if max rounds or max targets(and no more target left) is reached
-    # round_no: 0<=int<ROUND_MAX, starting the game with round number = 0
-    # target_no: 0<=int<TARGET_MAX, number of targets(ID given to a target)
-    # hit: 0<=int, number of targets hit
-    # WIDTH: 0<int<10, width of the shooting range, should be less than 10, see doc
-    # ROUND_MAX: 0<int, game will stop if reaches max rounds
-    # TARGET_MAX: 0<int, game will stop if reaches max targets
-    # RESPAWN_PROB: 0<= float <= 1; probability of targets respawn
-    # score: 0=<int, score +1 if a target is hit; -3 if an invalid move is performed(invalid shot,command,move)
+    # round_no: 0 <= int <= ROUND_MAX, starting the game with round number = 0
+    # target_no: 0 <= int <= TARGET_MAX, number of targets(ID given to a target)
+    # hit: 0 <= int, number of targets hit
+    # WIDTH: 0 <int <10, width of the shooting range, should be less than 10, see doc
+    # ROUND_MAX: 0 < int, game will stop if reaches max rounds
+    # TARGET_MAX: 0 < int, game will stop if reaches max targets
+    # RESPAWN_PROB: 0 <= float <= 1; probability of targets respawn
+    # score: 0 =< int, score +1 if a target is hit; -3 if an invalid move is performed(invalid shot,command,move)
     # player: player object
     # TARGET_LOCATION: list of tuple of ints, all potential location of targets
     # target: list of target objects

@@ -244,11 +244,11 @@ Bots are designed to catch output of the game by calling ***Game.output()*** and
 
 ***def random_bot(loc,target,round_no):***
 
-Returns one of the valid command.
+Returns one of the valid command randomly.
 
 **Parameters:**
 - loc: list of ints. The current location of the player.
-- target: list of tuples and ints. Tuple represents the current location of the target and int represents the remaining round of the target.
+- target: list of tuples and an int. Tuple represents the current location of the target and int represents the remaining round of the target.
 - round_no: int. The current round number.
 
 **Returns:**
@@ -278,7 +278,7 @@ Returns a rational command base on the current status of the game. All situation
 
 **Parameters:**
 - loc: list of ints. The current location of the player.
-- target: list of tuples and ints. Tuple represents the current location of the target and int represents the remaining round of the target.
+- target: list of tuples and an int. Tuple represents the current location of the target and int represents the remaining round of the target.
 - round_no: int. The current round number.
 
 **Returns:**
@@ -294,9 +294,8 @@ Smart bot is fully depending on the basic bot but it is designed to be a bit sma
 - If there is no more target, move out of the booth to save a round.
 
 **Parameters:**
-
 - loc: list of ints. The current location of the player.
-- target: list of tuples and ints. Tuple represents the current location of the target and int represents the remaining round of the target.
+- target: list of tuples and an int. Tuple represents the current location of the target and int represents the remaining round of the target.
 - round_no: int. The current round number.
 
 **Returns:**

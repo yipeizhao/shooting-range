@@ -268,7 +268,7 @@ Returns a rational command base on the current status of the game. All situation
 | 1 | Any row | Any col | No target  | PASS | ****** |
 | 2 | 0 | Even col | Same col as player  | NORTH | **** |
 | 3 | 1 | Even col | Same col as player | SHOOT | ***** |
-| 4 | 1 | Even col| No target in front | SOUTH | *** |
+| 4 | 1 | Even col| No target in front but a target elsewhere| SOUTH | *** |
 | 5 | 0 | Any col | A target can be found on right | EAST | ** |
 | 6 | 0 | Any col | A target can be found on left | WEST | ** |
 | 7 | 0 | Within two targets but closer to the left | Left and right | WEST | ** |
@@ -292,6 +292,11 @@ Returns a rational command base on the current status of the game. All situation
 Smart bot is fully depending on the basic bot but it is designed to be a bit smarter with some strategies:
 - Detect the distance between targets and the player to make a decision. If the remaining round is smaller than the distance plus two("NORTH" and "SHOOT" command), the target will be gave up since it is unreachable.
 - If there is no more target, move out of the booth to save a round.
+<br>
+
+Potential strategies:
+- Trying to move towards the middle of the shooting range if there is no target. If the width is set to be 5, move the target towards column 2. Since width is a parameter and achieve it from the module can be cheated, this is not implemented.
+
 
 **Parameters:**
 - loc: list of ints. The current location of the player.

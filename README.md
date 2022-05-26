@@ -14,6 +14,7 @@ game.interactive()
 Gamev2 is the only stable version yet. Gamev1 is no longer being maintained. Gamev3 is unstable and experimental. More interested mechanism will be added into Gamev3.
 
 <br>
+
 Valid commands are:
 - SHOOT
 - PASS

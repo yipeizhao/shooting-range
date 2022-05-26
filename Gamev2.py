@@ -233,6 +233,8 @@ class Game:
 
     # =============================================================================
     # An interactive way to play the game, taking the command from the user
+    # type: None
+    # rtype: None
     # =============================================================================
     def interactive(self):
         self.display()
@@ -243,7 +245,7 @@ class Game:
 
     # =============================================================================
     # Return the current state of the game
-    # Player loc, targets and round no
+    # Player loc: targets and round no
     # type: None
     # rtype: list of ints
     # rtype: list of Target objects
@@ -297,10 +299,10 @@ class Game:
 
 # =============================================================================
 # Replace the char c in a string s given index i
-# type s, string
-# type i, int
-# type c, string
-# rtype new_s, string
+# type s: string
+# type i: int
+# type c: string
+# rtype new_s: string
 # =============================================================================
 def string_replacement(s, i, c):
     new_s = list(s)

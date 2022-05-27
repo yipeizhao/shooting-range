@@ -185,7 +185,7 @@ None
 
 ***Game.reset():***
 
-Reset the game by calling ***Game.__init__().***
+Reset the game by reinstantiate player's location, targets, `round_no`, `score` and other variables.
 
 **Parameters:**
 

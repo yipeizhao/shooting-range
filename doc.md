@@ -1,6 +1,6 @@
 # shooting range
 
-# Requirement
+# Instruction
 
 [Instructions.pdf](Instructions.pdf)
 

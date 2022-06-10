@@ -46,10 +46,7 @@ class Game:
         # If no targets are generated initially, randomly choose a target location to spawn a target
         # Ensuring that there is at least one target at the start of the game
         self.target = []
-        for i in range(len(self.TARGET_LOCATION)):
-            if random.random() < self.RESPAWN_PROB:
-                self.target.append(self.Target(list(self.TARGET_LOCATION)[i], 9))
-                self.target_no += 1
+        self.target_update()
         if len(self.target) == 0:
             init_target = random.choice(list(self.TARGET_LOCATION))
             self.target = [(self.Target(init_target, 9))]
@@ -299,5 +296,5 @@ def string_replacement(s, i, c):
     new_s = "".join(new_s)
     return new_s
 
-# game = Game()
-# game.interactive()
+game = Game()
+game.interactive()
